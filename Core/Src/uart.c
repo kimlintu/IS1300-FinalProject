@@ -5,6 +5,7 @@
  *      Author: kimli
  */
 
+#ifndef MOCK_UART
 #include "uart.h"
 
 uart_rx_status RX_COMPLETE = 0;
@@ -51,3 +52,4 @@ UART_status uart_receive_data_block(uint8_t *buffer, uint16_t buffer_size) {
 
 	return UART_OK;
 }
+#endif

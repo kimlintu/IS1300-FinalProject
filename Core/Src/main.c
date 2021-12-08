@@ -25,6 +25,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "test/test_uart.h"
+#include "test/test_timestring.h"
+#include "stdio.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -56,7 +58,16 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+int _write(int file, char *ptr, int len)
+{
+	int DataIdx;
 
+	for (DataIdx = 0; DataIdx < len; DataIdx++)
+	{
+		ITM_SendChar(*ptr++);
+	}
+	return len;
+}
 /* USER CODE END 0 */
 
 /**
@@ -89,9 +100,12 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   MX_UART5_Init();
+
+  printf("hello\n");
   /* USER CODE BEGIN 2 */
 #ifdef RUN_TEST
   test_uart();
+  test_timestring();
 #endif
   /* USER CODE END 2 */
 
@@ -100,7 +114,6 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
