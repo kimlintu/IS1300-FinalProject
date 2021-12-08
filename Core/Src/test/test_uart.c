@@ -66,7 +66,7 @@ void test_uart() {
 #ifdef MOCK_UART
 	uint8_t *correct_data = expected_data;
 	uint16_t c_data_size = strlen(correct_data);
-	mock_uart_set_receive_retval(expected_data, data_size);
+	mock_uart_set_receive_retval(expected_data, c_data_size);
 #else
 	uint8_t *prompt1 = (uint8_t *) "Type: \"Hello World\\n\"";
 	uint16_t data_size = (uint16_t) strlen((char*) prompt1);
@@ -77,9 +77,9 @@ void test_uart() {
 #ifdef MOCK_UART
 	uint8_t *wrong_data = (uint8_t *)"Not the same\t";
 	uint16_t w_data_size = strlen(wrong_data);
-	mock_uart_set_receive_retval(wrong_data, data_size);
+	mock_uart_set_receive_retval(wrong_data, w_data_size);
 #else
-	uint8_t *prompt2 = (uint8_t *) "Type something except: \"Hello World\\n\"";
+	uint8_t *prompt2 = (uint8_t *) "Type something EXCEPT: \"Hello World\\n\"";
 	data_size = (uint16_t) strlen((char*) prompt2);
 	uart_send_data(prompt2, data_size + 1);
 #endif

@@ -49,7 +49,7 @@ void extract_timestring_numbers(uint8_t *buffer, uint8_t *numbers) {
 }
 
 TIMESTRING_STATUS get_user_timestring(timestring *time) {
-	uint16_t buffer_size = sizeof(timestring) + 3; // space for HH:MM:SS\n (9 bytes)
+	uint16_t buffer_size = sizeof(timestring) * 2 + 3; // space for HH:MM:SS\n (9 bytes)
 	uint8_t buffer[buffer_size];
 
 	/* Get the timestring from user : format HH:MM:SS */
