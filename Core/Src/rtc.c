@@ -26,7 +26,9 @@ RTC_HandleTypeDef hrtc;
 /* RTC init function */
 
 /**
- * @brief Initializes the RTC module
+ * @brief 	Initializes the RTC module
+ *
+ * @retval 	RTC_OK if initalization succeeded, otherwise RTC_INIT_FAIL
  */
 RTC_STATUS rtc_init() {
 	/** Initialize RTC Only
@@ -46,6 +48,16 @@ RTC_STATUS rtc_init() {
 	return RTC_OK;
 }
 
+/**
+ * @brief	Sets the time of the RTC module.
+ *
+ * @param 	timestring *time: A timestring struct containing the time that should be set.
+ *
+ * @retval	RTC_OK if initalization succeeded, otherwise RTC_SETTIME_FAIL if time could not be set.
+ *
+ * @note	It's a good idea to put a delay after calling this function so that subsequent calls to
+ * 			rtc_get_time() updates accordingly.
+ */
 RTC_STATUS rtc_set_time(timestring *time) {
 	RTC_TimeTypeDef hal_time;
 	hal_time.Hours = time->hour;
@@ -61,6 +73,13 @@ RTC_STATUS rtc_set_time(timestring *time) {
 	}
 }
 
+/**
+ * @brief	Retrieves the current time of the RTC module.
+ *
+ * @param	timestring *time: A pointer to a timestring that should initialized with the retrieved time.
+ *
+ * @retval	RTC_OK if initalization succeeded, otherwise RTC_GETTIME_FAIL if time could not be retrieved.
+ */
 RTC_STATUS rtc_get_time(timestring *time) {
 	RTC_TimeTypeDef hal_time;
 	if (HAL_RTC_GetTime(&hrtc, &hal_time, RTC_FORMAT_BIN) != HAL_OK) {
