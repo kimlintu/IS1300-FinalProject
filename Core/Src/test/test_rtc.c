@@ -15,6 +15,9 @@ static uint32_t pass = 0;
 
 static bool time_set = false;
 
+/**
+ * @brief	Tests that the initialization of the RTC module works.
+ */
 void test_rtc_initialization() {
 	if (rtc_init() != RTC_OK) {
 		printf("\tfail: rtc was not initialized correctly\n");
@@ -24,7 +27,10 @@ void test_rtc_initialization() {
 	}
 }
 
-void test_rtc_settime() {
+/**
+ * @brief	Tries to set the time of the RTC module.
+ */
+timestring test_rtc_settime() {
 	timestring time;
 	time.hour = 12;
 	time.minute = 3;
@@ -35,10 +41,15 @@ void test_rtc_settime() {
 	} else {
 		time_set = true;
 		pass++;
+
+		return time;
 	}
+
+	timestring null_timestring = { 0, 0, 0 };
+	return null_timestring;
 }
 
-void test_rtc_gettime() {
+timestring test_rtc_gettime() {
 	timestring retrieved_time = { 0, 0, 0 };
 	if (rtc_get_time(&retrieved_time) != RTC_OK) {
 		printf("\tfail: could not get RTC time\n");
@@ -46,7 +57,40 @@ void test_rtc_gettime() {
 		errors++;
 	} else {
 		pass++;
+
+		return retrieved_time;
 	}
+
+	timestring null_timestring = { 0, 0, 0 };
+	return null_timestring;
+}
+
+void test_correct_settime(timestring set_time, timestring retrieved_time) {
+
+	if (retrieved_time.hour != set_time.hour) {
+		printf(
+				"\tfail: retrieved time after set does not have correct 'hour'\n");
+		printf("\t->expected %u but got %u\n", set_time.hour,
+				retrieved_time.hour);
+		errors++;
+	}
+
+	if (retrieved_time.minute != set_time.minute) {
+		printf(
+				"\tfail: retrieved time after set does not have correct 'minute'\n");
+		printf("\t->expected %u but got %u\n", set_time.minute,
+				retrieved_time.minute);
+		errors++;
+	}
+
+	if (retrieved_time.second != set_time.second) {
+		printf(
+				"\tfail: retrieved time after set does not have correct 'second'\n");
+		printf("\t->expected %u but got %u\n", set_time.second,
+				retrieved_time.second);
+		errors++;
+	}
+
 }
 
 void test_rtc_updatetime() {
@@ -84,13 +128,15 @@ void test_rtc() {
 	printf("\nRTC TEST START\n\n");
 
 	test_rtc_initialization();
-	test_rtc_settime();
+	timestring set_time = test_rtc_settime();
+	timestring set_time_retrieve = test_rtc_gettime(); /* try retrieving time just before setting it */
 	HAL_Delay(2000);
 
 	if (!time_set) {
 		printf("\tfail: did not run tests since time was not set\n");
 	} else {
-		test_rtc_gettime();
+		timestring retrieved_time = test_rtc_gettime();
+		test_correct_settime(set_time, set_time_retrieve);
 		test_rtc_updatetime();
 	}
 
