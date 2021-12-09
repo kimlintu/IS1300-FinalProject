@@ -24,7 +24,11 @@
 RTC_HandleTypeDef hrtc;
 
 /* RTC init function */
-RTC_STATUS rtc_init(timestring *time) {
+
+/**
+ * @brief Initializes the RTC module
+ */
+RTC_STATUS rtc_init() {
 	/** Initialize RTC Only
 	 */
 	hrtc.Instance = RTC;
@@ -39,6 +43,10 @@ RTC_STATUS rtc_init(timestring *time) {
 		return RTC_INIT_FAIL;
 	}
 
+	return RTC_OK;
+}
+
+RTC_STATUS rtc_set_time(timestring *time) {
 	RTC_TimeTypeDef hal_time;
 	hal_time.Hours = time->hour;
 	hal_time.Minutes = time->minute;
@@ -48,14 +56,14 @@ RTC_STATUS rtc_init(timestring *time) {
 
 	if (HAL_RTC_SetTime(&hrtc, &hal_time, RTC_FORMAT_BIN) != HAL_OK) {
 		return RTC_SETTIME_FAIL;
+	} else {
+		return RTC_OK;
 	}
-
-	return RTC_OK;
 }
 
 RTC_STATUS rtc_get_time(timestring *time) {
 	RTC_TimeTypeDef hal_time;
-	if(HAL_RTC_GetTime(&hrtc, &hal_time, RTC_FORMAT_BIN) != HAL_OK) {
+	if (HAL_RTC_GetTime(&hrtc, &hal_time, RTC_FORMAT_BIN) != HAL_OK) {
 		return RTC_GETTIME_FAIL;
 	} else {
 		/* Read date to unlock values in shadow registers */

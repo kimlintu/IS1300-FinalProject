@@ -44,7 +44,8 @@ typedef enum {
 /* USER CODE END Private defines */
 
 /* USER CODE BEGIN Prototypes */
-RTC_STATUS rtc_init(timestring *time);
+RTC_STATUS rtc_init();
+RTC_STATUS rtc_set_time(timestring *time);
 RTC_STATUS rtc_get_time(timestring *time);
 /* USER CODE END Prototypes */
 
