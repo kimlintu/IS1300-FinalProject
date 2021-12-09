@@ -75,7 +75,7 @@ void test_timestring_extraction() {
 }
 
 timestring test_get_user_timestring(bool fail_invalid_format,
-		bool fail_invalid_range) {
+bool fail_invalid_range) {
 	TIMESTRING_STATUS result;
 	timestring time;
 	result = get_user_timestring(&time);
@@ -91,7 +91,7 @@ timestring test_get_user_timestring(bool fail_invalid_format,
 		}
 	}
 
-	if ((result == TIMESTRING_INVALID_FORMAT) && fail_invalid_format) {
+	if (result == TIMESTRING_INVALID_FORMAT) {
 		if (fail_invalid_format) {
 			pass++;
 		} else {
@@ -100,7 +100,7 @@ timestring test_get_user_timestring(bool fail_invalid_format,
 		}
 	}
 
-	if ((result == TIMESTRING_INVALID_TIME_RANGE) && fail_invalid_range) {
+	if (result == TIMESTRING_INVALID_TIME_RANGE) {
 		if (fail_invalid_range) {
 			pass++;
 		} else {
@@ -122,36 +122,45 @@ void test_timestring() {
 	uint8_t *correct_timestring = (uint8_t*) "12:03:43\n";
 	uint16_t c_data_size = strlen(correct_timestring);
 	mock_uart_set_receive_retval(correct_timestring, c_data_size);
+#else
+	uint8_t *prompt1 = (uint8_t*) "Type: \"12:03:43\\n\"\r\n";
+	uint16_t data_size = (uint16_t) strlen((char*) prompt1);
+	uart_send_data(prompt1, data_size + 1);
 #endif
 	timestring time = test_get_user_timestring(false, false);
 	if (time.hour != 12) {
-		printf("\tfail: invalid value for 'hour' in timestring struct");
+		printf("\tfail: invalid value for 'hour' in timestring struct\n");
 		printf("\t->expected %d but got %d\n", 12, time.hour);
 		errors++;
 	} else {
 		pass++;
 	}
 
-	if (time.minute != 3) {
-		printf("\tfail: invalid value for 'minute' in timestring struct");
-		printf("\t->expected %d but got %d\n", 3, time.minute);
-		errors++;
-	} else {
-		pass++;
-	}
+	 if (time.minute != 3) {
+	 printf("\tfail: invalid value for 'minute' in timestring struct\n");
+	 printf("\t->expected %d but got %d\n", 3, time.minute);
+	 errors++;
+	 } else {
+	 pass++;
+	 }
 
-	if (time.second != 43) {
-		printf("\tfail: invalid value for 'second' in timestring struct");
-		printf("\t->expected %d but got %d\n", 43, time.second);
-		errors++;
-	} else {
-		pass++;
-	}
+
+	 if (time.second != 43) {
+	 printf("\tfail: invalid value for 'second' in timestring struct\n");
+	 printf("\t->expected %d but got %d\n", 43, time.second);
+	 errors++;
+	 } else {
+	 pass++;
+	 }
 
 #ifdef MOCK_UART
 	uint8_t *bad_format_timestring = (uint8_t*) "12:AB.43\t";
 	uint16_t b_data_size = strlen(bad_format_timestring);
 	mock_uart_set_receive_retval(bad_format_timestring, b_data_size);
+#else
+	uint8_t *prompt2 = (uint8_t*) "Type: \"12:AB.43\\t\"\r\n";
+	data_size = (uint16_t) strlen((char*) prompt2);
+	uart_send_data(prompt2, data_size + 1);
 #endif
 	test_get_user_timestring(true, false);
 
@@ -159,6 +168,10 @@ void test_timestring() {
 	uint8_t *invalid_range_timestring = (uint8_t*) "12:99:43\n";
 	uint16_t i_data_size = strlen(invalid_range_timestring);
 	mock_uart_set_receive_retval(invalid_range_timestring, i_data_size);
+#else
+	uint8_t *prompt3 = (uint8_t*) "Type: \"12:99:43\\n\"\r\n";
+	data_size = (uint16_t) strlen((char*) prompt3);
+	uart_send_data(prompt3, data_size + 1);
 #endif
 	test_get_user_timestring(false, true);
 

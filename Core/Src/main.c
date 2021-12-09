@@ -104,7 +104,6 @@ int main(void)
   printf("hello\n");
   /* USER CODE BEGIN 2 */
 #ifdef RUN_TEST
-  test_uart();
   test_timestring();
 #endif
   /* USER CODE END 2 */
