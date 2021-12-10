@@ -96,6 +96,7 @@ RTC_STATUS rtc_get_time(timestring *time) {
 		time->hour = hal_time.Hours;
 		time->minute = hal_time.Minutes;
 		time->second = hal_time.Seconds;
+		time->subsecond = hal_time.SubSeconds;
 
 		return RTC_OK;
 	}
