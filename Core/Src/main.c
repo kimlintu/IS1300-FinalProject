@@ -20,6 +20,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "rtc.h"
+#include "spi.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -102,6 +103,8 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   MX_UART5_Init();
+  MX_RTC_Init();
+  MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
 #ifdef RUN_TEST
   test_rtc();
