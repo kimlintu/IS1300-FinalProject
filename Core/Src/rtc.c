@@ -64,13 +64,17 @@ RTC_STATUS rtc_set_time(timestring *time) {
 	hal_time.Minutes = time->minute;
 	hal_time.Seconds = time->second;
 	hal_time.SubSeconds = 0;
+	hal_time.SecondFraction = 0;
 	hal_time.TimeFormat = RTC_HOURFORMAT_24;
 
 	if (HAL_RTC_SetTime(&hrtc, &hal_time, RTC_FORMAT_BIN) != HAL_OK) {
 		return RTC_SETTIME_FAIL;
 	} else {
-		return RTC_OK;
+
+			return RTC_OK;
+
 	}
+
 }
 
 /**
@@ -82,11 +86,11 @@ RTC_STATUS rtc_set_time(timestring *time) {
  */
 RTC_STATUS rtc_get_time(timestring *time) {
 	RTC_TimeTypeDef hal_time;
+	RTC_DateTypeDef hal_date;
 	if (HAL_RTC_GetTime(&hrtc, &hal_time, RTC_FORMAT_BIN) != HAL_OK) {
 		return RTC_GETTIME_FAIL;
 	} else {
 		/* Read date to unlock values in shadow registers */
-		RTC_DateTypeDef hal_date;
 		HAL_RTC_GetDate(&hrtc, &hal_date, RTC_FORMAT_BIN);
 
 		time->hour = hal_time.Hours;
