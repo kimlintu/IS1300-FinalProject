@@ -28,7 +28,7 @@ extern "C" {
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
-
+#include "timestring.h"
 /* USER CODE END Includes */
 
 extern RTC_HandleTypeDef hrtc;

@@ -27,6 +27,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "test/test_uart.h"
+#include "test/test_spi.h"
 #include "test/test_rtc.h"
 #include "test/test_timestring.h"
 #include "stdio.h"
@@ -107,7 +108,7 @@ int main(void)
   MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
 #ifdef RUN_TEST
-  test_rtc();
+  test_spi();
 #endif
   /* USER CODE END 2 */
 

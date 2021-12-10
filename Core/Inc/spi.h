@@ -34,13 +34,18 @@ extern "C" {
 extern SPI_HandleTypeDef hspi2;
 
 /* USER CODE BEGIN Private defines */
-
+typedef enum {
+	SPI_OK,
+	SPI_FAIL_TRANSMIT,
+	SPI_FAIL_RECEIVE
+} SPI_STATUS;
 /* USER CODE END Private defines */
 
 void MX_SPI2_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
+SPI_STATUS spi_send(uint8_t *data, uint16_t data_size);
+SPI_STATUS spi_receive(uint8_t *data, uint16_t data_size);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus
