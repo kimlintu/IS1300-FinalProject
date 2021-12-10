@@ -147,7 +147,6 @@ void test_rtc_updatetime() {
 void test_rtc() {
 	/* Initialization test */
 	printf("\nRTC TEST START\n\n");
-	test_rtc_initialization();
 	timestring set_time = test_rtc_settime();
 	timestring set_time_retrieve = test_rtc_gettime(); /* try retrieving time just after setting it */
 
