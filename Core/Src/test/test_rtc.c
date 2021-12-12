@@ -115,25 +115,25 @@ void test_correct_settime(timestring set_time, timestring retrieved_time) {
  * @brief	Retrieves time from RTC in 1 second interval and verify that RTC counter has increased.
  */
 void test_rtc_updatetime() {
-	int c = 5;
-	uint8_t seconds[c];
+	int c = 100;
+	timestring seconds[c];
 
 	timestring retrieved_time = { 0, 0, 0 };
 	for (int i = 0; i < c; i++) {
 		rtc_get_time(&retrieved_time);
-		seconds[i] = retrieved_time.second;
+		seconds[i] = retrieved_time;
 		HAL_Delay(1000);
 	}
 
 	uint8_t fail = 0;
 	for (int i = 1; i < c; i++) {
-		if (seconds[i] == seconds[i - 1]) {
+		if (seconds[i].second == seconds[i - 1].second) {
 			if (!fail) {
 				printf("\tfail: time did not update after 1s\n");
 				fail = 1;
 			}
-			printf("\t-> seconds[%d]=%u is same as [%d]=%u\n", i, seconds[i],
-					i - 1, seconds[i - 1]);
+			printf("\t-> seconds[%d]=%u is same as [%d]=%u\n", i, seconds[i].second,
+					i - 1, seconds[i - 1].second);
 		}
 	}
 
@@ -147,11 +147,10 @@ void test_rtc_updatetime() {
 void test_rtc() {
 	/* Initialization test */
 	printf("\nRTC TEST START\n\n");
-	test_rtc_initialization();
 	timestring set_time = test_rtc_settime();
 	timestring set_time_retrieve = test_rtc_gettime(); /* try retrieving time just after setting it */
 
-	HAL_Delay(2000); // Need some delay to wait for RTC counter to start?
+	HAL_Delay(1); // Need some delay to wait for RTC counter to start?
 	if (time_set) {
 		test_correct_settime(set_time, set_time_retrieve);
 		test_rtc_updatetime();

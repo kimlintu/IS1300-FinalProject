@@ -20,12 +20,14 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "rtc.h"
+#include "spi.h"
 #include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "test/test_uart.h"
+#include "test/test_spi.h"
 #include "test/test_rtc.h"
 #include "test/test_timestring.h"
 #include "stdio.h"
@@ -102,9 +104,11 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   MX_UART5_Init();
+  MX_RTC_Init();
+  MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
 #ifdef RUN_TEST
-  test_rtc();
+  test_spi();
 #endif
   /* USER CODE END 2 */
 

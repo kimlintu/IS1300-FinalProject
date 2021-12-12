@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * @file    rtc.h
+  * @file    spi.h
   * @brief   This file contains all the function prototypes for
-  *          the rtc.c file
+  *          the spi.c file
   ******************************************************************************
   * @attention
   *
@@ -17,8 +17,8 @@
   ******************************************************************************
   */
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __RTC_H__
-#define __RTC_H__
+#ifndef __SPI_H__
+#define __SPI_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -28,32 +28,30 @@ extern "C" {
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
-#include "timestring.h"
+
 /* USER CODE END Includes */
 
-extern RTC_HandleTypeDef hrtc;
+extern SPI_HandleTypeDef hspi2;
 
 /* USER CODE BEGIN Private defines */
 typedef enum {
-	RTC_OK,
-	RTC_INIT_FAIL,
-	RTC_SETTIME_FAIL,
-	RTC_GETTIME_FAIL
-} RTC_STATUS;
+	SPI_OK,
+	SPI_FAIL_TRANSMIT,
+	SPI_FAIL_RECEIVE
+} SPI_STATUS;
 /* USER CODE END Private defines */
 
-void MX_RTC_Init(void);
+void MX_SPI2_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-RTC_STATUS rtc_init();
-RTC_STATUS rtc_set_time(timestring *time);
-RTC_STATUS rtc_get_time(timestring *time);
+SPI_STATUS spi_send(uint8_t *data, uint16_t data_size);
+SPI_STATUS spi_receive(uint8_t *data, uint16_t data_size);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* __RTC_H__ */
+#endif /* __SPI_H__ */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
