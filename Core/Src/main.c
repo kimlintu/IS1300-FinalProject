@@ -21,6 +21,7 @@
 #include "main.h"
 #include "rtc.h"
 #include "spi.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -106,6 +107,7 @@ int main(void)
   MX_UART5_Init();
   MX_RTC_Init();
   MX_SPI2_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
 #ifdef RUN_TEST
   test_spi();
