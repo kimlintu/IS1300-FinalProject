@@ -30,6 +30,7 @@
 #include "test/test_uart.h"
 #include "test/test_spi.h"
 #include "test/test_rtc.h"
+#include "test/test_pwm.h"
 #include "test/test_timestring.h"
 #include "stdio.h"
 /* USER CODE END Includes */
@@ -110,7 +111,7 @@ int main(void)
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
 #ifdef RUN_TEST
-  test_spi();
+  test_pwm();
 #endif
   /* USER CODE END 2 */
 
