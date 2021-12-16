@@ -8,8 +8,11 @@
 #ifndef INC_DISPLAY_H_
 #define INC_DISPLAY_H_
 
+#include "spi.h"
+
 /* Display command definitions */
 #define BYTE_TO_DISPLAY_BYTE(byte) (0x0f & byte), ((0xf0 & byte) >> 4)
+
 /* Start byte */
 #define DISP_START_INSTR_W 0x1f
 
@@ -24,7 +27,7 @@
 
 /* Entry mode */
 #define DISP_ENTRY 0x4
-#define DISP_ENTRY_CRSR_R_BIT (0x1 << 2) // Move cursor right after write
+#define DISP_ENTRY_CRSR_R_BIT (0x1 << 1) // Move cursor right after write
 
 /* Bias */
 #define DISP_BIAS 0x1E

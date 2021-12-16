@@ -112,38 +112,15 @@ int main(void) {
   test_display();
 #endif
 
-  /*
-	uint8_t cmd1[] = { 0x1f, 0x0a, 0x03 };
-	uint8_t cmd2[] = { 0x09, 0x00 };
-	uint8_t cmd3[] = { 0x06, 0x00 };
-	uint8_t cmd4[] = { 0x0E, 0x01 };
-	uint8_t cmd5[] = { 0x09, 0x03 };
-	uint8_t cmd6[] = { 0x0B, 0x01 };
-	uint8_t cmd7[] = { 0x0E, 0x06 };
-	uint8_t cmd8[] = { 0x06, 0x05 };
-	uint8_t cmd9[] = { 0x0A, 0x07 };
-	uint8_t cmd10[] = { 0x08, 0x03 };
-	uint8_t cmd11[] = { 0x0f, 0x00 };
+
 	uint8_t cmd_clear[] = { 0x01, 0x00 };
 	uint8_t cmd_t[] = { 0x5f, 0x04, 0x05 };
 	uint16_t size1 = 3;
 	uint16_t size2 = 2;
 
-	spi_send(cmd1, size1);
-
-	spi_send(cmd2, size2);
-	spi_send(cmd3, size2);
-	spi_send(cmd4, size2);
-	spi_send(cmd5, size2);
-	spi_send(cmd6, size2);
-	spi_send(cmd7, size2);
-	spi_send(cmd8, size2);
-	spi_send(cmd9, size2);
-	spi_send(cmd10, size2);
-	spi_send(cmd11, size2);
 	spi_send(cmd_clear, size2);
 	spi_send(cmd_t, size1);
-*/
+
 
 	/* USER CODE END 2 */
 
