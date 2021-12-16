@@ -31,6 +31,7 @@
 #include "test/test_spi.h"
 #include "test/test_rtc.h"
 #include "test/test_pwm.h"
+#include "test/test_display.h"
 #include "test/test_timestring.h"
 #include "stdio.h"
 /* USER CODE END Includes */
@@ -42,7 +43,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-//#define RUN_TEST
+#define RUN_TEST
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -108,7 +109,7 @@ int main(void) {
 	MX_TIM3_Init();
 	/* USER CODE BEGIN 2 */
 #ifdef RUN_TEST
-  test_pwm();
+  test_display();
 #endif
 
   /*
