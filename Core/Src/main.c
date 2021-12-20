@@ -109,19 +109,14 @@ int main(void) {
 	MX_TIM3_Init();
 	/* USER CODE BEGIN 2 */
 #ifdef RUN_TEST
-  test_display();
+	/*test_uart();
+	test_spi();
+	test_timestring();
+	test_rtc();
+	test_pwm();*/
+	test_display();
+
 #endif
-
-
-	uint8_t cmd_clear[] = { 0x01, 0x00 };
-	uint8_t cmd_t[] = { 0x5f, 0x04, 0x05 };
-	uint16_t size1 = 3;
-	uint16_t size2 = 2;
-
-	spi_send(cmd_clear, size2);
-	spi_send(cmd_t, size1);
-
-
 	/* USER CODE END 2 */
 
 	/* Infinite loop */

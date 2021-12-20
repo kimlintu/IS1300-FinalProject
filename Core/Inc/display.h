@@ -12,6 +12,7 @@
 
 /* Display command definitions */
 #define BYTE_TO_DISPLAY_BYTE(byte) (0x0f & byte), ((0xf0 & byte) >> 4)
+#define COORD_TO_DISPLAY_ADDR(x, y) (((y) * 0x20) + (x))
 
 /* Start byte */
 #define DISP_START_INSTR_W 0x1f
@@ -27,7 +28,7 @@
 
 /* Entry mode */
 #define DISP_ENTRY 0x4
-#define DISP_ENTRY_CRSR_R_BIT (0x1 << 1) // Move cursor right after write
+#define DISP_ENTRY_CURSOR_R_BIT (0x1 << 1) // Move cursor right after write
 
 /* Bias */
 #define DISP_BIAS 0x1E
@@ -46,12 +47,22 @@
 
 /* Display */
 #define DISP_CTRL 0x08
-#define DISP_CTRL_ON_BIT (0x1 << 2)
-#define DISP_CTRL_CURSOR_BIT (0x1 << 1)
-#define DISP_CTRL_CURSOR_BLINK_BIT (0x1)
+#define DISP_CTRL_ON_BIT (0x1 << 2)			// Turn on display
+#define DISP_CTRL_CURSOR_BIT (0x1 << 1)		// Enable cursor
+#define DISP_CTRL_CURSOR_BLINK_BIT (0x1)	// Enable cursor blink
+
+/* Display address counter */
+#define DISP_DDRAM_SET_ADDR 0x80
 
 /******************************/
 
+typedef enum {
+	DISPLAY_OK,
+	DISPLAY_WRITE_ERROR
+} DISPLAY_STATUS;
+
 void display_init(void);
+
+DISPLAY_STATUS display_write(uint8_t *data, uint16_t data_size, uint8_t row, uint8_t col);
 
 #endif /* INC_DISPLAY_H_ */
