@@ -80,3 +80,14 @@ DISPLAY_STATUS display_write(uint8_t *data, uint16_t data_size, uint8_t row,
 
 	return DISPLAY_OK;
 }
+
+/**
+ * @brief	Clears the display and resets the display's address counter to the
+ * 			first row and first column.
+ *
+ * @retval	None
+ */
+void display_clear() {
+	uint8_t clear_cmd[3] = { DISP_START_INSTR_W, BYTE_TO_DISPLAY_BYTE(DISP_CLEAR) };
+	spi_send(clear_cmd, 3);
+}

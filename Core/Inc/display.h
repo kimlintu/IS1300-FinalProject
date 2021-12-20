@@ -50,6 +50,7 @@
 #define DISP_CTRL_ON_BIT (0x1 << 2)			// Turn on display
 #define DISP_CTRL_CURSOR_BIT (0x1 << 1)		// Enable cursor
 #define DISP_CTRL_CURSOR_BLINK_BIT (0x1)	// Enable cursor blink
+#define DISP_CLEAR 0x01
 
 /* Display address counter */
 #define DISP_DDRAM_SET_ADDR 0x80
@@ -64,5 +65,7 @@ typedef enum {
 void display_init(void);
 
 DISPLAY_STATUS display_write(uint8_t *data, uint16_t data_size, uint8_t row, uint8_t col);
+
+void display_clear(void);
 
 #endif /* INC_DISPLAY_H_ */
