@@ -117,11 +117,11 @@ int main(void)
 	/*test_uart();
 	test_spi();
 	test_timestring();
-	test_rtc();
-	test_pwm();*/
+	test_rtc();*/
+	test_pwm();
 	//test_display();
   	//test_adc();
-  test_potentiometer();
+  //test_potentiometer();
 #endif
 
 
