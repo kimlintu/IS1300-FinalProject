@@ -34,6 +34,7 @@
 #include "test/test_pwm.h"
 #include "test/test_display.h"
 #include "test/test_timestring.h"
+#include "test/test_adc.h"
 #include "stdio.h"
 /* USER CODE END Includes */
 
@@ -117,16 +118,21 @@ int main(void)
 	test_timestring();
 	test_rtc();
 	test_pwm();*/
-	test_display();
-
+	//test_display();
+  	test_adc();
 #endif
+
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	while (1) {
     /* USER CODE END WHILE */
-
+		HAL_ADC_Start(&hadc1);
+		  uint32_t data = HAL_ADC_GetValue(&hadc1);
+		  printf("adc : %d\n", data);
+		  HAL_Delay(3000);
     /* USER CODE BEGIN 3 */
 	}
   /* USER CODE END 3 */

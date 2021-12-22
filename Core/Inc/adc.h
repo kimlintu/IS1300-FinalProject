@@ -34,13 +34,17 @@ extern "C" {
 extern ADC_HandleTypeDef hadc1;
 
 /* USER CODE BEGIN Private defines */
-
+typedef enum {
+	ADC_START_OK,
+	ADC_START_FAIL
+} ADC_STATUS;
 /* USER CODE END Private defines */
 
 void MX_ADC1_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
+ADC_STATUS adc_start(void);
+uint32_t adc_read(void);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

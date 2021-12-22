@@ -22,6 +22,28 @@
 
 /* USER CODE BEGIN 0 */
 
+/**
+ * @brief	Starts and ADC conversion.
+ *
+ * @retval	ADC_START_OK if the conversion started successfully. Otherwise
+ * 			ADC_START_FAIL is returned.
+ */
+ADC_STATUS adc_start() {
+	if(HAL_ADC_Start(&hadc1) != HAL_OK) {
+		return ADC_START_FAIL;
+	}
+
+	return ADC_START_OK;
+}
+
+/**
+ * @brief	Reads value from ADC conversion.
+ *
+ * @retval	the value of the conversion.
+ */
+uint32_t adc_read() {
+	return HAL_ADC_GetValue(&hadc1);
+}
 /* USER CODE END 0 */
 
 ADC_HandleTypeDef hadc1;
