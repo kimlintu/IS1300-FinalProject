@@ -28,6 +28,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#define RUN_TEST
+
+#ifdef RUN_TEST
 #include "test/test_uart.h"
 #include "test/test_spi.h"
 #include "test/test_rtc.h"
@@ -36,7 +39,9 @@
 #include "test/test_timestring.h"
 #include "test/test_adc.h"
 #include "test/test_potentiometer.h"
+#include "test/test_backlight.h"
 #include "stdio.h"
+#endif
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -46,7 +51,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define RUN_TEST
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -118,10 +123,11 @@ int main(void)
 	test_spi();
 	test_timestring();
 	test_rtc();*/
-	test_pwm();
+	//test_pwm();
 	//test_display();
   	//test_adc();
   //test_potentiometer();
+  test_backlight();
 #endif
 
 

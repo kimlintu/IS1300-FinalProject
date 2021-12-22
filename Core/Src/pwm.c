@@ -33,7 +33,7 @@ PWM_STATUS pwm_stop() {
  * @retval 	PWM_DC_CHANGE_FAIL if the p value was out of bounds. Otherwise
  * 			PWM_DC_CHANGE_OK is returned.
  */
-PWM_STATUS pwm_change_duty_cycle(uint8_t p) {
+PWM_STATUS pwm_set_duty_cycle(uint8_t p) {
 	if((p < 0) || (p > 100)) {
 		return PWM_DC_CHANGE_FAIL;
 	}

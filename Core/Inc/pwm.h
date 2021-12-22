@@ -21,6 +21,6 @@ typedef enum {
 PWM_STATUS pwm_start();
 PWM_STATUS pwm_stop();
 
-PWM_STATUS pwm_change_duty_cycle(uint8_t p);
+PWM_STATUS pwm_set_duty_cycle(uint8_t p);
 
 #endif /* INC_PWM_H_ */
