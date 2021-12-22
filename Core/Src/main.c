@@ -35,6 +35,7 @@
 #include "test/test_display.h"
 #include "test/test_timestring.h"
 #include "test/test_adc.h"
+#include "test/test_potentiometer.h"
 #include "stdio.h"
 /* USER CODE END Includes */
 
@@ -119,7 +120,8 @@ int main(void)
 	test_rtc();
 	test_pwm();*/
 	//test_display();
-  	test_adc();
+  	//test_adc();
+  test_potentiometer();
 #endif
 
 
