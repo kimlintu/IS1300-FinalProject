@@ -116,28 +116,30 @@ void test_get_clock_timestring() {
 	timestring retrieved_time;
 	timestring_get_clock_time(&retrieved_time);
 
-	if (retrieved_time.hour != rtc_mock.time.Hours) {
+	RTC_TimeTypeDef clock;
+	rtc_get_time(&clock);
+	if (retrieved_time.hour != clock.Hours) {
 		printf("\tfail: Timestring does not contain same hour as clock\n");
 		errors++;
 	} else {
 		pass++;
 	}
 
-	if (retrieved_time.minute != rtc_mock.time.Minutes) {
+	if (retrieved_time.minute != clock.Minutes) {
 		printf("\tfail: Timestring does not contain same minutes as clock\n");
 		errors++;
 	} else {
 		pass++;
 	}
 
-	if (retrieved_time.second != rtc_mock.time.Seconds) {
+	if (retrieved_time.second != clock.Seconds) {
 		printf("\tfail: Timestring does not contain same seconds as clock\n");
 		errors++;
 	} else {
 		pass++;
 	}
 
-	if (retrieved_time.subsecond != rtc_mock.time.SubSeconds) {
+	if (retrieved_time.subsecond != clock.SubSeconds) {
 		printf("\tfail: Timestring does not contain same subsecond as clock\n");
 		errors++;
 	} else {
