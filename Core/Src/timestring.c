@@ -70,18 +70,18 @@ TIMESTRING_STATUS get_user_timestring(timestring *time) {
 }
 
 void timestring_rtc_to_timestring(timestring *time, RTC_TimeTypeDef *rtc_time) {
-	(*time)[0] = rtc_time->Hours / 10;
-	(*time)[1] = rtc_time->Hours % 10;
+	(*time)[0] = '0' + (rtc_time->Hours / 10);
+	(*time)[1] = '0' + (rtc_time->Hours % 10);
 
 	(*time)[2] = ':';
 
-	(*time)[3] = rtc_time->Minutes / 10;
-	(*time)[4] = rtc_time->Minutes % 10;
+	(*time)[3] = '0' + (rtc_time->Minutes / 10);
+	(*time)[4] = '0' + (rtc_time->Minutes % 10);
 
 	(*time)[5] = ':';
 
-	(*time)[6] = rtc_time->Seconds / 10;
-	(*time)[7] = rtc_time->Seconds % 10;
+	(*time)[6] = '0' + (rtc_time->Seconds / 10);
+	(*time)[7] = '0' + (rtc_time->Seconds % 10);
 
 	(*time)[8] = '\n';
 }

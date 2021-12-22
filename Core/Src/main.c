@@ -28,7 +28,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#define RUN_TEST
+//#define RUN_TEST
 
 #ifdef RUN_TEST
 #include "test/test_uart.h"
@@ -133,44 +133,25 @@ int main(void) {
 
 	/* Infinite loop */
 	/* USER CODE BEGIN WHILE */
-/*
+
 	display_init();
 	display_clear();
+
+	backlight_on();
+
 	uint8_t *str = "Timestring!";
 	display_write(str, strlen(str), 1, 1);
 
 	timestring user_timestring;
 	get_user_timestring(&user_timestring);
-	RTC_TimeTypeDef rtc_time;
-	rtc_time.Hours = user_timestring.hour;
-	rtc_time.Minutes = user_timestring.minute;
-	rtc_time.Seconds = user_timestring.second;
-	rtc_time.SubSeconds = 0;
-	rtc_time.TimeFormat = RTC_HOURFORMAT_24;
-	rtc_set_time(&rtc_time);
-*/
+	rtc_set_time_from_timestring(&user_timestring);
+
 	while (1) {
-		/*
 		timestring_get_clock_time(&user_timestring);
-		uint8_t time[8];
-		time[0] = (uint8_t) '0' + (user_timestring.hour / 10);
-		time[1] = (uint8_t) '0' + (user_timestring.hour % 10);
+		display_write(user_timestring, 8, 2, 1);
 
-		time[2] = ':';
-
-		time[3] = (uint8_t) '0' + (user_timestring.minute / 10);
-		time[4] = (uint8_t) '0' + (user_timestring.minute % 10);
-
-		time[5] = ':';
-
-		time[6] = (uint8_t) '0' + (user_timestring.second / 10);
-		time[7] = (uint8_t) '0' + (user_timestring.second % 10);
-		display_write(time, 8, 2, 1);
-*/
 		/* USER CODE END WHILE */
-		HAL_ADC_Start(&hadc1);
-		uint32_t data = HAL_ADC_GetValue(&hadc1);
-		printf("adc : %d\n", data);
+		backlight_update_brightness();
 		HAL_Delay(1000);
 		/* USER CODE BEGIN 3 */
 	}
