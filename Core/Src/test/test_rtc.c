@@ -32,11 +32,13 @@ void test_rtc_initialization() {
  *
  * @retval	the timestring that RTC was initialized with.
  */
-timestring test_rtc_settime() {
-	timestring time;
-	time.hour = 1;
-	time.minute = 1;
-	time.second = 1;
+RTC_TimeTypeDef test_rtc_settime() {
+	RTC_TimeTypeDef time;
+	time.Hours = 1;
+	time.Minutes = 1;
+	time.Seconds = 1;
+	time.SubSeconds = 0;
+	time.TimeFormat = RTC_HOURFORMAT_24;
 	if (rtc_set_time(&time) != RTC_OK) {
 		printf("\tfail: could not set rtc time\n");
 		errors++;
@@ -47,7 +49,7 @@ timestring test_rtc_settime() {
 		return time;
 	}
 
-	timestring null_timestring = { 0, 0, 0 };
+	RTC_TimeTypeDef null_timestring = { 0 };
 	return null_timestring;
 }
 
@@ -56,8 +58,8 @@ timestring test_rtc_settime() {
  *
  * @retval	a timestring that contains the time that was retrieved from RTC.
  */
-timestring test_rtc_gettime() {
-	timestring retrieved_time = { 0, 0, 0 };
+RTC_TimeTypeDef test_rtc_gettime() {
+	RTC_TimeTypeDef retrieved_time = { 0 };
 	if (rtc_get_time(&retrieved_time) != RTC_OK) {
 		printf("\tfail: could not get RTC time\n");
 		/* print retrieved time */
@@ -68,7 +70,7 @@ timestring test_rtc_gettime() {
 		return retrieved_time;
 	}
 
-	timestring null_timestring = { 0, 0, 0 };
+	RTC_TimeTypeDef null_timestring = { 0 };
 	return null_timestring;
 }
 
@@ -76,32 +78,32 @@ timestring test_rtc_gettime() {
  * @brief	Compares timestrings retrieved from previous tests (set time, and get time).
  * 			The retrieved timestring should be retrieved immediately after the time was set.
  */
-void test_correct_settime(timestring set_time, timestring retrieved_time) {
+void test_correct_settime(RTC_TimeTypeDef set_time, RTC_TimeTypeDef retrieved_time) {
 	uint8_t fail = 0;
 
-	if (retrieved_time.hour != set_time.hour) {
+	if (retrieved_time.Hours != set_time.Hours) {
 		printf(
 				"\tfail: retrieved time after set does not have correct 'hour'\n");
-		printf("\t->expected %u but got %u\n", set_time.hour,
-				retrieved_time.hour);
+		printf("\t->expected %u but got %u\n", set_time.Hours,
+				retrieved_time.Hours);
 		errors++;
 		fail = 1;
 	}
 
-	if (retrieved_time.minute != set_time.minute) {
+	if (retrieved_time.Minutes != set_time.Minutes) {
 		printf(
 				"\tfail: retrieved time after set does not have correct 'minute'\n");
-		printf("\t->expected %u but got %u\n", set_time.minute,
-				retrieved_time.minute);
+		printf("\t->expected %u but got %u\n", set_time.Minutes,
+				retrieved_time.Minutes);
 		errors++;
 		fail = 1;
 	}
 
-	if (retrieved_time.second != set_time.second) {
+	if (retrieved_time.Seconds != set_time.Seconds) {
 		printf(
 				"\tfail: retrieved time after set does not have correct 'second'\n");
-		printf("\t->expected %u but got %u\n", set_time.second,
-				retrieved_time.second);
+		printf("\t->expected %u but got %u\n", set_time.Seconds,
+				retrieved_time.Seconds);
 		errors++;
 		fail = 1;
 	}
@@ -115,10 +117,10 @@ void test_correct_settime(timestring set_time, timestring retrieved_time) {
  * @brief	Retrieves time from RTC in 1 second interval and verify that RTC counter has increased.
  */
 void test_rtc_updatetime() {
-	int c = 100;
-	timestring seconds[c];
+	int c = 5;
+	RTC_TimeTypeDef seconds[c];
 
-	timestring retrieved_time = { 0, 0, 0 };
+	RTC_TimeTypeDef retrieved_time = { 0 };
 	for (int i = 0; i < c; i++) {
 		rtc_get_time(&retrieved_time);
 		seconds[i] = retrieved_time;
@@ -127,13 +129,13 @@ void test_rtc_updatetime() {
 
 	uint8_t fail = 0;
 	for (int i = 1; i < c; i++) {
-		if (seconds[i].second == seconds[i - 1].second) {
+		if (seconds[i].Seconds == seconds[i - 1].Seconds) {
 			if (!fail) {
 				printf("\tfail: time did not update after 1s\n");
 				fail = 1;
 			}
-			printf("\t-> seconds[%d]=%u is same as [%d]=%u\n", i, seconds[i].second,
-					i - 1, seconds[i - 1].second);
+			printf("\t-> seconds[%d]=%u is same as [%d]=%u\n", i, seconds[i].Seconds,
+					i - 1, seconds[i - 1].Seconds);
 		}
 	}
 
@@ -147,8 +149,8 @@ void test_rtc_updatetime() {
 void test_rtc() {
 	/* Initialization test */
 	printf("\nRTC TEST START\n\n");
-	timestring set_time = test_rtc_settime();
-	timestring set_time_retrieve = test_rtc_gettime(); /* try retrieving time just after setting it */
+	RTC_TimeTypeDef set_time = test_rtc_settime();
+	RTC_TimeTypeDef set_time_retrieve = test_rtc_gettime(); /* try retrieving time just after setting it */
 
 	HAL_Delay(1); // Need some delay to wait for RTC counter to start?
 	if (time_set) {

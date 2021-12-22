@@ -119,10 +119,10 @@ int main(void)
   MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
 #ifdef RUN_TEST
-	/*test_uart();
+	test_uart();
 	test_spi();
 	test_timestring();
-	test_rtc();*/
+	test_rtc();
 	//test_pwm();
 	//test_display();
   	//test_adc();
