@@ -28,7 +28,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-//#define RUN_TEST
+#define RUN_TEST
 #include "timestring.h"
 #include "display.h"
 
@@ -120,7 +120,7 @@ int main(void) {
 	MX_ADC1_Init();
 	/* USER CODE BEGIN 2 */
 #ifdef RUN_TEST
-	test_uart();
+	//test_uart();
 	test_spi();
 	test_timestring();
 	test_rtc();
@@ -135,7 +135,7 @@ int main(void) {
 
 	/* Infinite loop */
 	/* USER CODE BEGIN WHILE */
-
+/*
 	display_init();
 	display_clear();
 	uint8_t *str = "Timestring!";
@@ -150,8 +150,9 @@ int main(void) {
 	rtc_time.SubSeconds = 0;
 	rtc_time.TimeFormat = RTC_HOURFORMAT_24;
 	rtc_set_time(&rtc_time);
-
+*/
 	while (1) {
+		/*
 		timestring_get_clock_time(&user_timestring);
 		uint8_t time[8];
 		time[0] = (uint8_t) '0' + (user_timestring.hour / 10);
@@ -167,7 +168,7 @@ int main(void) {
 		time[6] = (uint8_t) '0' + (user_timestring.second / 10);
 		time[7] = (uint8_t) '0' + (user_timestring.second % 10);
 		display_write(time, 8, 2, 1);
-
+*/
 		/* USER CODE END WHILE */
 		HAL_ADC_Start(&hadc1);
 		uint32_t data = HAL_ADC_GetValue(&hadc1);
