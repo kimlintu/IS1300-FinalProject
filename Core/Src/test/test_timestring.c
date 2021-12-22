@@ -112,6 +112,39 @@ bool fail_invalid_range) {
 	return time;
 }
 
+void test_get_clock_timestring() {
+	timestring retrieved_time;
+	timestring_get_clock_time(&retrieved_time);
+
+	if (retrieved_time.hour != rtc_mock.time.Hours) {
+		printf("\tfail: Timestring does not contain same hour as clock\n");
+		errors++;
+	} else {
+		pass++;
+	}
+
+	if (retrieved_time.minute != rtc_mock.time.Minutes) {
+		printf("\tfail: Timestring does not contain same minutes as clock\n");
+		errors++;
+	} else {
+		pass++;
+	}
+
+	if (retrieved_time.second != rtc_mock.time.Seconds) {
+		printf("\tfail: Timestring does not contain same seconds as clock\n");
+		errors++;
+	} else {
+		pass++;
+	}
+
+	if (retrieved_time.subsecond != rtc_mock.time.SubSeconds) {
+		printf("\tfail: Timestring does not contain same subsecond as clock\n");
+		errors++;
+	} else {
+		pass++;
+	}
+}
+
 void test_timestring() {
 
 	printf("\nTIMESTRING TEST START\n\n");
@@ -136,22 +169,21 @@ void test_timestring() {
 		pass++;
 	}
 
-	 if (time.minute != 3) {
-	 printf("\tfail: invalid value for 'minute' in timestring struct\n");
-	 printf("\t->expected %d but got %d\n", 3, time.minute);
-	 errors++;
-	 } else {
-	 pass++;
-	 }
+	if (time.minute != 3) {
+		printf("\tfail: invalid value for 'minute' in timestring struct\n");
+		printf("\t->expected %d but got %d\n", 3, time.minute);
+		errors++;
+	} else {
+		pass++;
+	}
 
-
-	 if (time.second != 43) {
-	 printf("\tfail: invalid value for 'second' in timestring struct\n");
-	 printf("\t->expected %d but got %d\n", 43, time.second);
-	 errors++;
-	 } else {
-	 pass++;
-	 }
+	if (time.second != 43) {
+		printf("\tfail: invalid value for 'second' in timestring struct\n");
+		printf("\t->expected %d but got %d\n", 43, time.second);
+		errors++;
+	} else {
+		pass++;
+	}
 
 #ifdef MOCK_UART
 	uint8_t *bad_format_timestring = (uint8_t*) "12:AB.43\t";
@@ -174,6 +206,12 @@ void test_timestring() {
 	uart_send_data(prompt3, data_size + 1);
 #endif
 	test_get_user_timestring(false, true);
+
+#ifdef MOCK_RTC
+	rtc_mock_init();
+	test_get_clock_timestring();
+#else
+#endif
 
 	print_test_result(errors, pass);
 	printf("\nTIMESTRING TEST END\n");

@@ -17,6 +17,12 @@
 #include "uart.h"
 #endif
 
+#ifdef MOCK_RTC
+#include "test/mock/mock_rtc.h"
+#else
+#include "rtc.h"
+#endif
+
 typedef enum {
 	TIMESTRING_OK,
 	TIMESTRING_INVALID_FORMAT,
@@ -34,5 +40,6 @@ bool valid_time_range(uint8_t time, uint8_t min, uint8_t max);
 bool valid_timestring_format(uint8_t *buffer);
 void extract_timestring_numbers(uint8_t *buffer, uint8_t *numbers);
 TIMESTRING_STATUS get_user_timestring(timestring *time);
+void timestring_get_clock_time(timestring *time);
 
 #endif /* INC_TIMESTRING_H_ */

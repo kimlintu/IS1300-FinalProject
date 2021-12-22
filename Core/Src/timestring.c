@@ -75,3 +75,13 @@ TIMESTRING_STATUS get_user_timestring(timestring *time) {
 
 	return TIMESTRING_OK;
 }
+
+void timestring_get_clock_time(timestring *time) {
+	RTC_TimeTypeDef rtc_time;
+	rtc_get_time(&rtc_time);
+
+	time->hour = rtc_time.Hours;
+	time->minute = rtc_time.Minutes;
+	time->second = rtc_time.Seconds;
+	time->subsecond = rtc_time.SubSeconds;
+}

@@ -30,9 +30,43 @@ void test_pwm_stop() {
 	}
 }
 
+void test_pwm_change_dc() {
+	int c = 10;
+	printf("Changing duty cycle of PWM to values 100, 90, 80, .., 0\n");
+
+	int8_t dc = 100;
+	while (dc >= 0) {
+		printf("Setting duty cycle to %u\n", dc);
+		if (pwm_set_duty_cycle((uint8_t)dc) != PWM_DC_CHANGE_OK) {
+			printf(
+					"\tfail: Could not set PWM duty cycle to valid value of %u\n",
+					dc);
+			errors++;
+			continue;
+		}
+		dc -= 10;
+		c--;
+		pass++;
+		HAL_Delay(1000);
+	}
+
+	/* Test some invalid duty cycle values */
+	uint8_t invalid_dc = 123;
+	if (pwm_set_duty_cycle(invalid_dc) == PWM_DC_CHANGE_OK) {
+		printf("\tfail: Could set PWM duty cycle to invalid value of %u\n",
+				invalid_dc);
+		errors++;
+	} else {
+		pass++;
+	}
+}
+
 void test_pwm() {
 	printf("\nPWM TEST START\n\n");
 	test_pwm_start();
+	HAL_Delay(2000);
+	test_pwm_change_dc();
+
 	HAL_Delay(2000);
 	test_pwm_stop();
 

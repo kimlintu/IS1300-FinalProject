@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * @file    rtc.h
+  * @file    adc.h
   * @brief   This file contains all the function prototypes for
-  *          the rtc.c file
+  *          the adc.c file
   ******************************************************************************
   * @attention
   *
@@ -17,8 +17,8 @@
   ******************************************************************************
   */
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __RTC_H__
-#define __RTC_H__
+#ifndef __ADC_H__
+#define __ADC_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -28,34 +28,29 @@ extern "C" {
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
+
 /* USER CODE END Includes */
 
-extern RTC_HandleTypeDef hrtc;
+extern ADC_HandleTypeDef hadc1;
 
 /* USER CODE BEGIN Private defines */
-#ifndef MOCK_RTC
 typedef enum {
-	RTC_OK,
-	RTC_INIT_FAIL,
-	RTC_SETTIME_FAIL,
-	RTC_GETTIME_FAIL
-} RTC_STATUS;
-#endif
+	ADC_START_OK,
+	ADC_START_FAIL
+} ADC_STATUS;
 /* USER CODE END Private defines */
 
-void MX_RTC_Init(void);
+void MX_ADC1_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-#ifndef MOCK_RTC
-RTC_STATUS rtc_set_time(RTC_TimeTypeDef *time);
-RTC_STATUS rtc_get_time(RTC_TimeTypeDef *time);
-#endif
+ADC_STATUS adc_start(void);
+uint32_t adc_read(void);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* __RTC_H__ */
+#endif /* __ADC_H__ */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

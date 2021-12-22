@@ -9,7 +9,12 @@
 #define INC_TEST_TEST_RTC_H_
 
 #include "test/test_utils.h"
+
+#ifdef MOCK_RTC
+#include "test/mock/mock_rtc.h"
+#else
 #include "rtc.h"
+#endif
 
 void test_rtc(void);
 
