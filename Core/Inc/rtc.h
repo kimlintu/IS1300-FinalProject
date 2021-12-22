@@ -28,26 +28,28 @@ extern "C" {
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
-#include "timestring.h"
 /* USER CODE END Includes */
 
 extern RTC_HandleTypeDef hrtc;
 
 /* USER CODE BEGIN Private defines */
+#ifndef MOCK_RTC
 typedef enum {
 	RTC_OK,
 	RTC_INIT_FAIL,
 	RTC_SETTIME_FAIL,
 	RTC_GETTIME_FAIL
 } RTC_STATUS;
+#endif
 /* USER CODE END Private defines */
 
 void MX_RTC_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-RTC_STATUS rtc_init();
+#ifndef MOCK_RTC
 RTC_STATUS rtc_set_time(RTC_TimeTypeDef *time);
 RTC_STATUS rtc_get_time(RTC_TimeTypeDef *time);
+#endif
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

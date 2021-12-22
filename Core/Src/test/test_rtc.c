@@ -16,18 +16,6 @@ static uint32_t pass = 0;
 static bool time_set = false;
 
 /**
- * @brief	Tests that the initialization of the RTC module works.
- */
-void test_rtc_initialization() {
-	if (rtc_init() != RTC_OK) {
-		printf("\tfail: rtc was not initialized correctly\n");
-		errors++;
-	} else {
-		pass++;
-	}
-}
-
-/**
  * @brief	Tries to set the time of the RTC module.
  *
  * @retval	the timestring that RTC was initialized with.
@@ -147,15 +135,16 @@ void test_rtc_updatetime() {
 }
 
 void test_rtc() {
-	/* Initialization test */
 	printf("\nRTC TEST START\n\n");
 	RTC_TimeTypeDef set_time = test_rtc_settime();
 	RTC_TimeTypeDef set_time_retrieve = test_rtc_gettime(); /* try retrieving time just after setting it */
 
-	HAL_Delay(1); // Need some delay to wait for RTC counter to start?
 	if (time_set) {
 		test_correct_settime(set_time, set_time_retrieve);
+
+#ifndef MOCK_RTC
 		test_rtc_updatetime();
+#endif
 	} else {
 		printf("\terror: could not run remaining test since time was not set\n");
 	}

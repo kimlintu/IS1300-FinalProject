@@ -21,32 +21,9 @@
 #include "rtc.h"
 
 /* USER CODE BEGIN 0 */
+#ifndef MOCK_RTC
+
 RTC_HandleTypeDef hrtc;
-
-/* RTC init function */
-
-/**
- * @brief 	Initializes the RTC module
- *
- * @retval 	RTC_OK if initalization succeeded, otherwise RTC_INIT_FAIL
- */
-RTC_STATUS rtc_init() {
-	/** Initialize RTC Only
-	 */
-	hrtc.Instance = RTC;
-	hrtc.Init.HourFormat = RTC_HOURFORMAT_24;
-	hrtc.Init.AsynchPrediv = 127;
-	hrtc.Init.SynchPrediv = 255;
-	hrtc.Init.OutPut = RTC_OUTPUT_DISABLE;
-	hrtc.Init.OutPutRemap = RTC_OUTPUT_REMAP_NONE;
-	hrtc.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
-	hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
-	if (HAL_RTC_Init(&hrtc) != HAL_OK) {
-		return RTC_INIT_FAIL;
-	}
-
-	return RTC_OK;
-}
 
 /**
  * @brief	Sets the time of the RTC module.
@@ -82,6 +59,7 @@ RTC_STATUS rtc_get_time(RTC_TimeTypeDef *time) {
 		return RTC_OK;
 	}
 }
+#endif
 /* USER CODE END 0 */
 
 RTC_HandleTypeDef hrtc;
