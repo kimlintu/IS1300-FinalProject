@@ -29,8 +29,6 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #define RUN_TEST
-#include "timestring.h"
-#include "display.h"
 
 #ifdef RUN_TEST
 #include "test/test_uart.h"
@@ -122,7 +120,7 @@ int main(void) {
 #ifdef RUN_TEST
 	//test_uart();
 	test_spi();
-	test_timestring();
+	//test_timestring();
 	test_rtc();
 	//test_pwm();
 	//test_display();

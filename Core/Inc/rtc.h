@@ -28,6 +28,7 @@ extern "C" {
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
+#include "timestring.h"
 /* USER CODE END Includes */
 
 extern RTC_HandleTypeDef hrtc;
@@ -41,6 +42,8 @@ typedef enum {
 	RTC_GETTIME_FAIL
 } RTC_STATUS;
 #endif
+
+
 /* USER CODE END Private defines */
 
 void MX_RTC_Init(void);
@@ -49,6 +52,7 @@ void MX_RTC_Init(void);
 #ifndef MOCK_RTC
 RTC_STATUS rtc_set_time(RTC_TimeTypeDef *time);
 RTC_STATUS rtc_get_time(RTC_TimeTypeDef *time);
+RTC_STATUS rtc_set_time_from_timestring(timestring *time);
 #endif
 /* USER CODE END Prototypes */
 

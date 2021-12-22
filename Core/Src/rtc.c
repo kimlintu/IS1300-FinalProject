@@ -42,6 +42,28 @@ RTC_STATUS rtc_set_time(RTC_TimeTypeDef *time) {
 }
 
 /**
+ * @brief 	Sets the time of the RTC clock based on the given timestring.
+ *
+ * @param	timestring *time: A pointer to a valid 'timestring'. A timestring
+ * 							  is a string on the format HH:MM:SS\n
+ *
+ * @retval	RTC_STATUS
+ */
+RTC_STATUS rtc_set_time_from_timestring(timestring *time) {
+	uint8_t numbers[3];
+	extract_timestring_numbers(*time, numbers);
+
+	RTC_TimeTypeDef rtc_time;
+	rtc_time.Hours = numbers[0];
+	rtc_time.Minutes = numbers[1];
+	rtc_time.Seconds = numbers[2];
+	rtc_time.SubSeconds = 0;
+	rtc_time.TimeFormat = RTC_HOURFORMAT_24;
+
+	return rtc_set_time(&rtc_time);
+}
+
+/**
  * @brief	Retrieves the current time of the RTC module.
  *
  * @param	RTC_TimeTypeDef *time: A pointer to a struct that should be filled with the current time values.
