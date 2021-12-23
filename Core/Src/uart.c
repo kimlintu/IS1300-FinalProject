@@ -36,19 +36,23 @@ UART_status uart_send_data(uint8_t *data, uint16_t data_size) {
  *
  * @param 	uint8_t *buffer: A pointer to the buffer that should be filled with received data
  * @param 	uint16_t buffer_size: Size of the buffer
+ * @param	bool echo: If true, echoes the received character to the transmitter.
  *
  * @retval	returns UART_OK if the buffer was filled. UART_FAIL if an error occured.
  */
-UART_status uart_receive_data_block(uint8_t *buffer, uint16_t buffer_size) {
-	if (HAL_UART_Receive_IT(&huart5, buffer, buffer_size) != HAL_OK) {
-		return UART_FAIL;
+UART_status uart_receive_data_block(uint8_t *buffer, uint16_t buffer_size, bool echo) {
+	uint16_t received = 0;
+	uint8_t data;
+	while(received < buffer_size) {
+		if(HAL_UART_Receive(&huart5, &data, 1, 5000) == HAL_OK) {
+			*(buffer + received) = data;
+			received++;
+
+			if(echo) {
+				uart_send_data(&data, 1);
+			}
+		}
 	}
-
-	/* Wait until buffer is filled */
-	while (!RX_COMPLETE)
-		;
-
-	RX_COMPLETE = 0;
 
 	return UART_OK;
 }

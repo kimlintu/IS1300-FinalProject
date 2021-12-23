@@ -50,7 +50,7 @@ void extract_timestring_numbers(timestring buffer, uint8_t *numbers) {
 
 TIMESTRING_STATUS get_user_timestring(timestring *time) {
 	/* Get the timestring from user : format HH:MM:SS */
-	uart_receive_data_block(*time, sizeof(timestring));
+	uart_receive_data_block(*time, sizeof(timestring), true);
 
 	uint8_t numbers[3];
 	if (valid_timestring_format(*time)) {

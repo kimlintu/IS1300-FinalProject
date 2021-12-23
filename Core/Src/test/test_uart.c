@@ -18,7 +18,7 @@ void test_received_correct_data(uint8_t *expected_data, bool should_fail) {
 	uint16_t data_size = strlen(expected_data);
 
 	uint8_t data_rx[data_size + 1]; // + 1 for null character
-	if (uart_receive_data_block(data_rx, data_size) != UART_OK) {
+	if (uart_receive_data_block(data_rx, data_size, true) != UART_OK) {
 		/* Fail UART receive test */
 		printf("\tfail: Failed UART receive\n");
 	}

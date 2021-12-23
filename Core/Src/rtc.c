@@ -33,6 +33,8 @@ RTC_HandleTypeDef hrtc;
  * @retval	RTC_OK if initalization succeeded, otherwise RTC_SETTIME_FAIL if time could not be set.
  */
 RTC_STATUS rtc_set_time(RTC_TimeTypeDef *time) {
+	time->DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
+	time->StoreOperation = RTC_STOREOPERATION_RESET;
 	if (HAL_RTC_SetTime(&hrtc, time, RTC_FORMAT_BIN) != HAL_OK) {
 		return RTC_SETTIME_FAIL;
 	} else {
@@ -72,6 +74,7 @@ RTC_STATUS rtc_set_time_from_timestring(timestring *time) {
  */
 RTC_STATUS rtc_get_time(RTC_TimeTypeDef *time) {
 	RTC_DateTypeDef hal_date;
+
 	if (HAL_RTC_GetTime(&hrtc, time, RTC_FORMAT_BIN) != HAL_OK) {
 		return RTC_GETTIME_FAIL;
 	} else {
