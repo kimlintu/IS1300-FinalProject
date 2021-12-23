@@ -26,7 +26,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "timestring.h"
+#include "display.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -155,10 +156,18 @@ void StartDefaultTask(void *argument)
 void ClockUpdate(void *argument)
 {
   /* USER CODE BEGIN ClockUpdate */
-  /* Infinite loop */
+  const TickType_t xPeriod = pdMS_TO_TICKS(1000);
+
+  timestring clock_timestring;
+
+  TickType_t xLastWakeTime = xTaskGetTickCount();
+	/* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	  vTaskDelayUntil(&xLastWakeTime, xPeriod);
+
+	  timestring_get_clock_time(&clock_timestring);
+	  display_write(clock_timestring, 8, 2, 1);
   }
   /* USER CODE END ClockUpdate */
 }

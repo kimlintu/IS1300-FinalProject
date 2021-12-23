@@ -135,19 +135,7 @@ int main(void)
   test_backlight();
 #endif
 
-  /* USER CODE END 2 */
-
-  /* Init scheduler */
-  osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
-  MX_FREERTOS_Init();
-  /* Start scheduler */
-  osKernelStart();
-
-  /* We should never get here as control is now taken by the scheduler */
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
-
-  	/* Startup procedure */
+  /* Startup procedure */
 	display_init();
 	display_clear();
 
@@ -161,6 +149,17 @@ int main(void)
 	get_user_timestring(&user_timestring);
 	rtc_set_time_from_timestring(&user_timestring);
 
+  /* USER CODE END 2 */
+
+  /* Init scheduler */
+  osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
+  MX_FREERTOS_Init();
+  /* Start scheduler */
+  osKernelStart();
+
+  /* We should never get here as control is now taken by the scheduler */
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
 	/* Start program */
 	while (1) {
     /* USER CODE END WHILE */
