@@ -157,8 +157,6 @@ void test_rtc() {
 
 	rtc_set_time_from_timestring(&time);
 
-	RTC_TimeTypeDef tm = test_rtc_gettime();
-
 	print_test_result(errors, pass);
 	printf("\nRTC TEST END\n");
 }

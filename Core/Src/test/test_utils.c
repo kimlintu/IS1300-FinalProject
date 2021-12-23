@@ -6,7 +6,8 @@
  */
 
 #include "test/test_utils.h"
+#include "stdio.h"
 
 void print_test_result(uint32_t errors, uint32_t pass) {
-	printf("\n%d tests, %d passed, %d failed\n", (errors + pass), pass, errors);
+	printf("\n%lu tests, %lu passed, %lu failed\n", (errors + pass), pass, errors);
 }

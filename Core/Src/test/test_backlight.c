@@ -10,7 +10,6 @@
 #include "stdio.h"
 #include "stdint.h"
 
-static uint32_t errors = 0;
 static uint32_t pass = 0;
 
 void test_backlight() {

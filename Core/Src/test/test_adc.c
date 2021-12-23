@@ -7,6 +7,7 @@
 
 #include "test/test_adc.h"
 #include "stdio.h"
+#include "string.h"
 
 static uint32_t errors = 0;
 static uint32_t pass = 0;
