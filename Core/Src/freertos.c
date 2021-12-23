@@ -28,6 +28,7 @@
 /* USER CODE BEGIN Includes */
 #include "timestring.h"
 #include "display.h"
+#include "backlight.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -182,10 +183,15 @@ void ClockUpdate(void *argument)
 void BacklightUpdate(void *argument)
 {
   /* USER CODE BEGIN BacklightUpdate */
+  const TickType_t xPeriod = pdMS_TO_TICKS(50);
+
+  TickType_t xLastWakeTime = xTaskGetTickCount();
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	  vTaskDelayUntil(&xLastWakeTime, xPeriod);
+
+	  backlight_update_brightness();
   }
   /* USER CODE END BacklightUpdate */
 }
