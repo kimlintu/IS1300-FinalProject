@@ -28,6 +28,10 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "display.h"
+#include "timestring.h"
+#include "backlight.h"
+#include "stdio.h"
 //#define RUN_TEST
 
 #ifdef RUN_TEST
@@ -40,7 +44,6 @@
 #include "test/test_adc.h"
 #include "test/test_potentiometer.h"
 #include "test/test_backlight.h"
-#include "stdio.h"
 #endif
 /* USER CODE END Includes */
 
@@ -134,6 +137,7 @@ int main(void) {
 	/* Infinite loop */
 	/* USER CODE BEGIN WHILE */
 
+  	/* Startup procedure */
 	display_init();
 	display_clear();
 
@@ -142,17 +146,14 @@ int main(void) {
 	uint8_t *str = "Timestring!";
 	display_write(str, strlen(str), 1, 1);
 
+	/* Get user initial timestring */
 	timestring user_timestring;
 	get_user_timestring(&user_timestring);
 	rtc_set_time_from_timestring(&user_timestring);
 
+	/* Start program */
 	while (1) {
-		timestring_get_clock_time(&user_timestring);
-		display_write(user_timestring, 8, 2, 1);
-
 		/* USER CODE END WHILE */
-		backlight_update_brightness();
-		HAL_Delay(1000);
 		/* USER CODE BEGIN 3 */
 	}
 	/* USER CODE END 3 */
