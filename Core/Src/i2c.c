@@ -24,7 +24,7 @@
 I2C_STATUS i2c_write(uint8_t *data, uint16_t data_size, uint8_t device_address,
 		uint8_t mem_address) {
 	HAL_StatusTypeDef status;
-	if ((status = HAL_I2C_Mem_Write(&hi2c3, device_address, mem_address,
+	if ((status = HAL_I2C_Mem_Write(&hi2c3, (device_address << 1), mem_address,
 			sizeof(uint8_t), data, data_size, 5000)) != HAL_OK) {
 #ifdef LOG_ERRORS
 		HAL_error_handler("I2C", status);
@@ -36,10 +36,9 @@ I2C_STATUS i2c_write(uint8_t *data, uint16_t data_size, uint8_t device_address,
 }
 
 I2C_STATUS i2c_read(uint8_t *buffer, uint16_t buffer_size,
-		uint8_t device_address) {
+		uint8_t device_address, uint8_t mem_address) {
 	HAL_StatusTypeDef status;
-	if ((status = HAL_I2C_Master_Receive(&hi2c3, device_address, buffer, buffer_size,
-			5000)) != HAL_OK) {
+	if ((status = HAL_I2C_Mem_Read(&hi2c3, (device_address << 1), mem_address, sizeof(uint8_t), buffer, buffer_size, 5000)) != HAL_OK) {
 #ifdef LOG_ERRORS
 		HAL_error_handler("I2C", status);
 #endif
@@ -120,7 +119,7 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef* i2cHandle)
     */
     GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF4_I2C3;
     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);

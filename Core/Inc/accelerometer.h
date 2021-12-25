@@ -19,6 +19,8 @@ typedef enum {
 #define ACCELEROMETER_AXIS_Y 0x2
 #define ACCELEROMETER_AXIS_Z 0x4
 
+#define ACCELEROMETER_ADDRESS 0x1E // 001 1110 if SEL is LOW
+
 ACCELEROMETER_STATUS accelerometer_start(uint8_t axis);
 
 #endif /* INC_ACCELEROMETER_H_ */
