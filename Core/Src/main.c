@@ -19,6 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "cmsis_os.h"
 #include "adc.h"
 #include "rtc.h"
 #include "spi.h"
@@ -28,7 +29,11 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#define RUN_TEST
+#include "display.h"
+#include "timestring.h"
+#include "backlight.h"
+#include "stdio.h"
+//#define RUN_TEST
 
 #ifdef RUN_TEST
 #include "test/test_uart.h"
@@ -40,7 +45,6 @@
 #include "test/test_adc.h"
 #include "test/test_potentiometer.h"
 #include "test/test_backlight.h"
-#include "stdio.h"
 #endif
 /* USER CODE END Includes */
 
@@ -67,6 +71,7 @@
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -119,9 +124,9 @@ int main(void)
   MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
 #ifdef RUN_TEST
-	test_uart();
+	//test_uart();
 	test_spi();
-	test_timestring();
+	//test_timestring();
 	test_rtc();
 	//test_pwm();
 	//test_display();
@@ -130,17 +135,35 @@ int main(void)
   test_backlight();
 #endif
 
+  /* Startup procedure */
+	display_init();
+	display_clear();
+
+	backlight_on();
+
+	uint8_t *str = "Timestring!";
+	display_write(str, strlen(str), 1, 1);
+
+	/* Get user initial timestring */
+	timestring user_timestring;
+	get_user_timestring(&user_timestring);
+	rtc_set_time_from_timestring(&user_timestring);
 
   /* USER CODE END 2 */
 
+  /* Init scheduler */
+  osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
+  MX_FREERTOS_Init();
+  /* Start scheduler */
+  osKernelStart();
+
+  /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+	/* Start program */
 	while (1) {
     /* USER CODE END WHILE */
-		HAL_ADC_Start(&hadc1);
-		  uint32_t data = HAL_ADC_GetValue(&hadc1);
-		  printf("adc : %d\n", data);
-		  HAL_Delay(3000);
+
     /* USER CODE BEGIN 3 */
 	}
   /* USER CODE END 3 */
@@ -197,6 +220,27 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 
 /* USER CODE END 4 */
+
+/**
+  * @brief  Period elapsed callback in non blocking mode
+  * @note   This function is called  when TIM1 interrupt took place, inside
+  * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
+  * a global variable "uwTick" used as application time base.
+  * @param  htim : TIM handle
+  * @retval None
+  */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  /* USER CODE BEGIN Callback 0 */
+
+  /* USER CODE END Callback 0 */
+  if (htim->Instance == TIM1) {
+    HAL_IncTick();
+  }
+  /* USER CODE BEGIN Callback 1 */
+
+  /* USER CODE END Callback 1 */
+}
 
 /**
   * @brief  This function is executed in case of error occurrence.

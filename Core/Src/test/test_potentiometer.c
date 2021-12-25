@@ -19,7 +19,7 @@ void test_potentiometer() {
 	int c = 20;
 	while(c > 0) {
 		uint32_t p_value = potentiometer_read();
-		printf("value: %u\n", p_value);
+		printf("value: %lu\n", p_value);
 		HAL_Delay(500);
 		c--;
 	}

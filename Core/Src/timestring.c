@@ -17,7 +17,7 @@ bool valid_time_range(uint8_t time, uint8_t min, uint8_t max) {
 	}
 }
 
-bool valid_timestring_format(uint8_t *buffer) {
+bool valid_timestring_format(timestring buffer) {
 	/* Check valid format */
 	if ((buffer[2] != ':') || (buffer[5]) != ':') {
 		return false;
@@ -39,7 +39,7 @@ bool valid_timestring_format(uint8_t *buffer) {
 	return true;
 }
 
-void extract_timestring_numbers(uint8_t *buffer, uint8_t *numbers) {
+void extract_timestring_numbers(timestring buffer, uint8_t *numbers) {
 	uint16_t len = strlen((char*) buffer);
 	for (int i = 0; i < len; i += 3) {
 		uint8_t ten_digit = buffer[i] - 0x30;
@@ -49,15 +49,12 @@ void extract_timestring_numbers(uint8_t *buffer, uint8_t *numbers) {
 }
 
 TIMESTRING_STATUS get_user_timestring(timestring *time) {
-	uint16_t buffer_size = sizeof(timestring) * 2 + 3; // space for HH:MM:SS\n (9 bytes)
-	uint8_t buffer[buffer_size];
-
 	/* Get the timestring from user : format HH:MM:SS */
-	uart_receive_data_block(buffer, buffer_size);
+	uart_receive_data_block(*time, sizeof(timestring), true);
 
 	uint8_t numbers[3];
-	if (valid_timestring_format(buffer)) {
-		extract_timestring_numbers(buffer, numbers);
+	if (valid_timestring_format(*time)) {
+		extract_timestring_numbers(*time, numbers);
 	} else {
 		return TIMESTRING_INVALID_FORMAT;
 	}
@@ -69,19 +66,30 @@ TIMESTRING_STATUS get_user_timestring(timestring *time) {
 		return TIMESTRING_INVALID_TIME_RANGE;
 	}
 
-	time->hour = numbers[0];
-	time->minute = numbers[1];
-	time->second = numbers[2];
-
 	return TIMESTRING_OK;
+}
+
+void timestring_rtc_to_timestring(timestring *time, RTC_TimeTypeDef *rtc_time) {
+	(*time)[0] = '0' + (rtc_time->Hours / 10);
+	(*time)[1] = '0' + (rtc_time->Hours % 10);
+
+	(*time)[2] = ':';
+
+	(*time)[3] = '0' + (rtc_time->Minutes / 10);
+	(*time)[4] = '0' + (rtc_time->Minutes % 10);
+
+	(*time)[5] = ':';
+
+	(*time)[6] = '0' + (rtc_time->Seconds / 10);
+	(*time)[7] = '0' + (rtc_time->Seconds % 10);
+
+	(*time)[8] = '\n';
 }
 
 void timestring_get_clock_time(timestring *time) {
 	RTC_TimeTypeDef rtc_time;
 	rtc_get_time(&rtc_time);
 
-	time->hour = rtc_time.Hours;
-	time->minute = rtc_time.Minutes;
-	time->second = rtc_time.Seconds;
-	time->subsecond = rtc_time.SubSeconds;
+	/* Convert RTC time to a string */
+	timestring_rtc_to_timestring(time, &rtc_time);
 }

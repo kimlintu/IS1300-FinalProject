@@ -17,6 +17,8 @@
 #include "uart.h"
 #endif
 
+typedef uint8_t timestring[9]; // Format HH:MM:SS\n
+
 #ifdef MOCK_RTC
 #include "test/mock/mock_rtc.h"
 #else
@@ -29,12 +31,7 @@ typedef enum {
 	TIMESTRING_INVALID_TIME_RANGE
 } TIMESTRING_STATUS;
 
-typedef struct Timestring {
-	uint8_t hour;
-	uint8_t minute;
-	uint8_t second;
-	uint32_t subsecond;
-} timestring;
+
 
 bool valid_time_range(uint8_t time, uint8_t min, uint8_t max);
 bool valid_timestring_format(uint8_t *buffer);

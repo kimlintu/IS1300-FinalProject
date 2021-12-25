@@ -149,6 +149,14 @@ void test_rtc() {
 		printf("\terror: could not run remaining test since time was not set\n");
 	}
 
+	uint8_t str[] = "12:03:12\n";
+	timestring time;
+	for(int i = 0; i < sizeof(timestring); i++) {
+		time[i] = str[i];
+	}
+
+	rtc_set_time_from_timestring(&time);
+
 	print_test_result(errors, pass);
 	printf("\nRTC TEST END\n");
 }

@@ -74,11 +74,10 @@ void test_timestring_extraction() {
 	}
 }
 
-timestring test_get_user_timestring(bool fail_invalid_format,
-bool fail_invalid_range) {
+void test_get_user_timestring(bool fail_invalid_format,
+bool fail_invalid_range, timestring *time) {
 	TIMESTRING_STATUS result;
-	timestring time;
-	result = get_user_timestring(&time);
+	result = get_user_timestring(time);
 
 	if ((result == TIMESTRING_OK)) {
 		if (!fail_invalid_format && !fail_invalid_range) {
@@ -109,7 +108,6 @@ bool fail_invalid_range) {
 			errors++;
 		}
 	}
-	return time;
 }
 
 void test_get_clock_timestring() {
@@ -118,41 +116,32 @@ void test_get_clock_timestring() {
 
 	RTC_TimeTypeDef clock;
 	rtc_get_time(&clock);
-	if (retrieved_time.hour != clock.Hours) {
+
+	uint8_t numbers[3];
+	extract_timestring_numbers(retrieved_time, numbers);
+	if (numbers[0] != clock.Hours) {
 		printf("\tfail: Timestring does not contain same hour as clock\n");
 		errors++;
 	} else {
 		pass++;
 	}
 
-	if (retrieved_time.minute != clock.Minutes) {
+	if (numbers[1] != clock.Minutes) {
 		printf("\tfail: Timestring does not contain same minutes as clock\n");
 		errors++;
 	} else {
 		pass++;
 	}
 
-	if (retrieved_time.second != clock.Seconds) {
+	if (numbers[2] != clock.Seconds) {
 		printf("\tfail: Timestring does not contain same seconds as clock\n");
-		errors++;
-	} else {
-		pass++;
-	}
-
-	if (retrieved_time.subsecond != clock.SubSeconds) {
-		printf("\tfail: Timestring does not contain same subsecond as clock\n");
 		errors++;
 	} else {
 		pass++;
 	}
 }
 
-void test_timestring() {
-
-	printf("\nTIMESTRING TEST START\n\n");
-	test_timestring_validation();
-	test_timestring_extraction();
-
+void test_correct_user_timestring() {
 #ifdef MOCK_UART
 	uint8_t *correct_timestring = (uint8_t*) "12:03:43\n";
 	uint16_t c_data_size = strlen(correct_timestring);
@@ -162,52 +151,70 @@ void test_timestring() {
 	uint16_t data_size = (uint16_t) strlen((char*) prompt1);
 	uart_send_data(prompt1, data_size + 1);
 #endif
-	timestring time = test_get_user_timestring(false, false);
-	if (time.hour != 12) {
+	timestring user_timestring;
+	test_get_user_timestring(false, false, &user_timestring);
+	uint8_t numbers[3];
+	extract_timestring_numbers(user_timestring, numbers);
+	if (numbers[0] != 12) {
 		printf("\tfail: invalid value for 'hour' in timestring struct\n");
-		printf("\t->expected %d but got %d\n", 12, time.hour);
+		printf("\t->expected %d but got %d\n", 12, numbers[0]);
 		errors++;
 	} else {
 		pass++;
 	}
 
-	if (time.minute != 3) {
+	if (numbers[1] != 3) {
 		printf("\tfail: invalid value for 'minute' in timestring struct\n");
-		printf("\t->expected %d but got %d\n", 3, time.minute);
+		printf("\t->expected %d but got %d\n", 3, numbers[1]);
 		errors++;
 	} else {
 		pass++;
 	}
 
-	if (time.second != 43) {
+	if (numbers[2] != 43) {
 		printf("\tfail: invalid value for 'second' in timestring struct\n");
-		printf("\t->expected %d but got %d\n", 43, time.second);
+		printf("\t->expected %d but got %d\n", 43, numbers[2]);
 		errors++;
 	} else {
 		pass++;
 	}
+}
 
+void test_badly_format_user_timestring() {
 #ifdef MOCK_UART
 	uint8_t *bad_format_timestring = (uint8_t*) "12:AB.43\t";
 	uint16_t b_data_size = strlen(bad_format_timestring);
 	mock_uart_set_receive_retval(bad_format_timestring, b_data_size);
 #else
 	uint8_t *prompt2 = (uint8_t*) "Type: \"12:AB.43\\t\"\r\n";
-	data_size = (uint16_t) strlen((char*) prompt2);
+	uint16_t data_size = (uint16_t) strlen((char*) prompt2);
 	uart_send_data(prompt2, data_size + 1);
 #endif
-	test_get_user_timestring(true, false);
+	timestring user_timestring;
+	test_get_user_timestring(true, false, &user_timestring);
+}
 
+void test_invalid_range_timestring() {
 #ifdef MOCK_UART
 	uint8_t *invalid_range_timestring = (uint8_t*) "12:99:43\n";
 	uint16_t i_data_size = strlen(invalid_range_timestring);
 	mock_uart_set_receive_retval(invalid_range_timestring, i_data_size);
 #else
 	uint8_t *prompt3 = (uint8_t*) "Type: \"12:99:43\\n\"\r\n";
-	data_size = (uint16_t) strlen((char*) prompt3);
+	uint16_t data_size = (uint16_t) strlen((char*) prompt3);
 	uart_send_data(prompt3, data_size + 1);
 #endif
-	test_get_user_timestring(false, true);
+	timestring user_timestring;
+	test_get_user_timestring(false, true, &user_timestring);
+}
+void test_timestring() {
+
+	printf("\nTIMESTRING TEST START\n\n");
+	test_timestring_validation();
+	test_timestring_extraction();
+	test_correct_user_timestring();
+	test_badly_format_user_timestring();
+	test_invalid_range_timestring();
 
 #ifdef MOCK_RTC
 	rtc_mock_init();
