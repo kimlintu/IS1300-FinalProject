@@ -21,7 +21,21 @@
 #include "i2c.h"
 
 /* USER CODE BEGIN 0 */
+I2C_STATUS i2c_write(uint8_t *data, uint16_t data_size, uint8_t device_address, uint8_t mem_address) {
+	if(HAL_I2C_Mem_Write(&hi2c3, device_address, mem_address, sizeof(uint8_t), data, data_size, 5000) != HAL_OK) {
+		return I2C_FAIL;
+	}
 
+	return I2C_OK;
+}
+
+I2C_STATUS i2c_read(uint8_t *buffer, uint16_t buffer_size, uint8_t device_address) {
+	if(HAL_I2C_Master_Receive(&hi2c3, device_address, buffer, buffer_size, 5000) != HAL_OK) {
+		return I2C_FAIL;
+	}
+
+	return I2C_OK;
+}
 /* USER CODE END 0 */
 
 I2C_HandleTypeDef hi2c3;

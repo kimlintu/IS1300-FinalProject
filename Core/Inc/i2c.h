@@ -34,13 +34,17 @@ extern "C" {
 extern I2C_HandleTypeDef hi2c3;
 
 /* USER CODE BEGIN Private defines */
-
+typedef enum {
+	I2C_OK,
+	I2C_FAIL
+} I2C_STATUS;
 /* USER CODE END Private defines */
 
 void MX_I2C3_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
+I2C_STATUS i2c_write(uint8_t *data, uint16_t data_size, uint8_t device_address, uint8_t mem_address);
+I2C_STATUS i2c_read(uint8_t *buffer, uint16_t buffer_size, uint8_t device_address);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus
