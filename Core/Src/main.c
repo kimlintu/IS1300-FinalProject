@@ -46,6 +46,7 @@
 #include "test/test_adc.h"
 #include "test/test_potentiometer.h"
 #include "test/test_backlight.h"
+#include <test/test_accelerometer.h>
 #endif
 /* USER CODE END Includes */
 
@@ -126,6 +127,7 @@ int main(void)
   MX_I2C3_Init();
   /* USER CODE BEGIN 2 */
 #ifdef RUN_TEST
+  /*
 	test_uart();
 	test_spi();
 	test_rtc();
@@ -135,6 +137,8 @@ int main(void)
 	test_adc();
 	test_potentiometer();
 	test_backlight();
+	*/
+  	test_accelerometer();
 #else
   /* Startup procedure */
 	display_init();
