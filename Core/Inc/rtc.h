@@ -37,9 +37,7 @@ extern RTC_HandleTypeDef hrtc;
 #ifndef MOCK_RTC
 typedef enum {
 	RTC_OK,
-	RTC_INIT_FAIL,
-	RTC_SETTIME_FAIL,
-	RTC_GETTIME_FAIL
+	RTC_FAIL
 } RTC_STATUS;
 #endif
 

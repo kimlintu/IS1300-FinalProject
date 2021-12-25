@@ -7,6 +7,7 @@
 
 #ifndef MOCK_UART
 #include "uart.h"
+#include "error_handler.h"
 
 uart_rx_status RX_COMPLETE = 0;
 
@@ -24,6 +25,9 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle) {
  */
 UART_status uart_send_data(uint8_t *data, uint16_t data_size) {
 	if (HAL_UART_Transmit(&huart5, data, data_size, TX_TIMEOUT) != HAL_OK) {
+#ifdef LOG_ERRORS
+		HAL_error_handler("UART", status);
+#endif
 		return UART_FAIL;
 	} else {
 		return UART_OK;
@@ -51,6 +55,10 @@ UART_status uart_receive_data_block(uint8_t *buffer, uint16_t buffer_size, bool 
 			if(echo) {
 				uart_send_data(&data, 1);
 			}
+		} else {
+#ifdef LOG_ERRORS
+		HAL_error_handler("UART", status);
+#endif
 		}
 	}
 

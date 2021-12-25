@@ -12,10 +12,7 @@
 
 typedef enum {
 	PWM_OK,
-	PWM_START_FAIL,
-	PWM_STOP_FAIL,
-	PWM_DC_CHANGE_FAIL,
-	PWM_DC_CHANGE_OK
+	PWM_FAIL
 } PWM_STATUS;
 
 PWM_STATUS pwm_start();

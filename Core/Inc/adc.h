@@ -29,14 +29,15 @@ extern "C" {
 
 /* USER CODE BEGIN Includes */
 
+#include "error_handler.h"
 /* USER CODE END Includes */
 
 extern ADC_HandleTypeDef hadc1;
 
 /* USER CODE BEGIN Private defines */
 typedef enum {
-	ADC_START_OK,
-	ADC_START_FAIL
+	ADC_OK,
+	ADC_FAIL
 } ADC_STATUS;
 /* USER CODE END Private defines */
 

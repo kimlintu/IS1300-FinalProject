@@ -30,10 +30,13 @@
  */
 ADC_STATUS adc_start() {
 	if(HAL_ADC_Start(&hadc1) != HAL_OK) {
-		return ADC_START_FAIL;
+#ifdef LOG_ERRORS
+		HAL_error_handler("ADC", status);
+#endif
+		return ADC_FAIL;
 	}
 
-	return ADC_START_OK;
+	return ADC_OK;
 }
 
 /**

@@ -28,7 +28,7 @@ extern "C" {
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
-
+#include "error_handler.h"
 /* USER CODE END Includes */
 
 extern I2C_HandleTypeDef hi2c3;
