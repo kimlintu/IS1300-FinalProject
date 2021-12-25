@@ -34,7 +34,7 @@
 #include "timestring.h"
 #include "backlight.h"
 #include "stdio.h"
-//#define RUN_TEST
+#define RUN_TEST
 
 #ifdef RUN_TEST
 #include "test/test_uart.h"
@@ -126,15 +126,15 @@ int main(void)
   MX_I2C3_Init();
   /* USER CODE BEGIN 2 */
 #ifdef RUN_TEST
-	//test_uart();
+	test_uart();
 	test_spi();
-	//test_timestring();
 	test_rtc();
-	//test_pwm();
-	//test_display();
-  	//test_adc();
-  //test_potentiometer();
-  test_backlight();
+	test_timestring();
+	test_pwm();
+	test_display();
+	test_adc();
+	test_potentiometer();
+	test_backlight();
 #else
   /* Startup procedure */
 	display_init();

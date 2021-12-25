@@ -29,7 +29,8 @@
  * 			ADC_START_FAIL is returned.
  */
 ADC_STATUS adc_start() {
-	if(HAL_ADC_Start(&hadc1) != HAL_OK) {
+	HAL_StatusTypeDef status;
+	if((status = HAL_ADC_Start(&hadc1)) != HAL_OK) {
 #ifdef LOG_ERRORS
 		HAL_error_handler("ADC", status);
 #endif

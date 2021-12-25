@@ -11,7 +11,8 @@
 #define TIM3_PERIOD 1041
 
 PWM_STATUS pwm_start() {
-	if (HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2) != HAL_OK) {
+	HAL_StatusTypeDef status;
+	if ((status = HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2)) != HAL_OK) {
 #ifdef LOG_ERRORS
 		HAL_error_handler("PWM", status);
 #endif
@@ -22,7 +23,8 @@ PWM_STATUS pwm_start() {
 }
 
 PWM_STATUS pwm_stop() {
-	if (HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_2) != HAL_OK) {
+	HAL_StatusTypeDef status;
+	if ((status = HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_2)) != HAL_OK) {
 #ifdef LOG_ERRORS
 		HAL_error_handler("PWM", status);
 #endif

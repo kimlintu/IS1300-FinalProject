@@ -24,7 +24,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle) {
  * @retval	returns UART_OK if the transmission succeeded, otherwise UART_FAIL
  */
 UART_status uart_send_data(uint8_t *data, uint16_t data_size) {
-	if (HAL_UART_Transmit(&huart5, data, data_size, TX_TIMEOUT) != HAL_OK) {
+	HAL_StatusTypeDef status;
+	if ((status = HAL_UART_Transmit(&huart5, data, data_size, TX_TIMEOUT)) != HAL_OK) {
 #ifdef LOG_ERRORS
 		HAL_error_handler("UART", status);
 #endif
@@ -47,8 +48,10 @@ UART_status uart_send_data(uint8_t *data, uint16_t data_size) {
 UART_status uart_receive_data_block(uint8_t *buffer, uint16_t buffer_size, bool echo) {
 	uint16_t received = 0;
 	uint8_t data;
+
+	HAL_StatusTypeDef status;
 	while(received < buffer_size) {
-		if(HAL_UART_Receive(&huart5, &data, 1, 5000) == HAL_OK) {
+		if((status = HAL_UART_Receive(&huart5, &data, 1, 5000)) == HAL_OK) {
 			*(buffer + received) = data;
 			received++;
 

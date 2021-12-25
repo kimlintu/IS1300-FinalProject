@@ -19,5 +19,6 @@ void HAL_error_handler(char *source, HAL_StatusTypeDef status) {
 	} else if (status == HAL_TIMEOUT) {
 		printf("%s, HAL status: HAL_TIMEOUT", source);
 	}
+	printf("\n");
 }
 
