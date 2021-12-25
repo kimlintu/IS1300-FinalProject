@@ -21,6 +21,7 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "adc.h"
+#include "i2c.h"
 #include "rtc.h"
 #include "spi.h"
 #include "tim.h"
@@ -122,6 +123,7 @@ int main(void)
   MX_SPI2_Init();
   MX_TIM3_Init();
   MX_ADC1_Init();
+  MX_I2C3_Init();
   /* USER CODE BEGIN 2 */
 #ifdef RUN_TEST
 	//test_uart();
@@ -133,8 +135,7 @@ int main(void)
   	//test_adc();
   //test_potentiometer();
   test_backlight();
-#endif
-
+#else
   /* Startup procedure */
 	display_init();
 	display_clear();
@@ -148,6 +149,9 @@ int main(void)
 	timestring user_timestring;
 	get_user_timestring(&user_timestring);
 	rtc_set_time_from_timestring(&user_timestring);
+#endif
+
+
 
   /* USER CODE END 2 */
 
