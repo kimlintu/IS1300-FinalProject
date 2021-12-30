@@ -27,7 +27,9 @@ void test_accelerometer() {
 
 	test_accelerometer_start();
 
-
+	accelerometer_init_sm();
+	accelerometer_setup_sm1(0x04, 0x00);
+	//accelerometer_setup_sm2(0xFF, 0x32);
 
 	print_test_result(errors, pass);
 	printf("\nACCERELOMETER TEST END\n\n");

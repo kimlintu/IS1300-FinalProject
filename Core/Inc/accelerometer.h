@@ -23,4 +23,8 @@ typedef enum {
 
 ACCELEROMETER_STATUS accelerometer_start(uint8_t axis);
 
+void accelerometer_init_sm();
+ACCELEROMETER_STATUS accelerometer_setup_sm1(int8_t threshold, uint16_t time_between_shake);
+ACCELEROMETER_STATUS accelerometer_setup_sm2(int8_t threshold, uint16_t time_between_shake);
+
 #endif /* INC_ACCELEROMETER_H_ */
