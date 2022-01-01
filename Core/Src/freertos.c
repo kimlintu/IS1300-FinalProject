@@ -168,7 +168,7 @@ void ClockUpdate(void *argument)
 	  vTaskDelayUntil(&xLastWakeTime, xPeriod);
 
 	  timestring_get_clock_time(&clock_timestring);
-	  display_write(clock_timestring, 8, 2, 1);
+	  display_write(clock_timestring, 8, 1, 1);
   }
   /* USER CODE END ClockUpdate */
 }
