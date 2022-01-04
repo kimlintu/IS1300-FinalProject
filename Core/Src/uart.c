@@ -1,19 +1,14 @@
-/*
- * uart.c
- *
- *  Created on: Dec 6, 2021
- *      Author: kimli
+/**
+ ******************************************************************************
+ @brief 	Driver for the UART interface.
+ @file 		uart.c
+ @author	Kim Lintu
+ ******************************************************************************
  */
 
 #ifndef MOCK_UART
 #include "uart.h"
 #include "error_handler.h"
-
-uart_rx_status RX_COMPLETE = 0;
-
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle) {
-	RX_COMPLETE = 1;
-}
 
 /**
  * @brief 	Tries to send data out via UART

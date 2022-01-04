@@ -1,14 +1,17 @@
-/*
- * display.c
- *
- *  Created on: 16 dec. 2021
- *      Author: kimli
+/**
+ ******************************************************************************
+ @brief 	Driver for the external display.
+ @file 		display.c
+ @author	Kim Lintu
+ ******************************************************************************
  */
 
 #include "display.h"
 
 /**
  * @brief	Initializes the display.
+ *
+ * @retval 	None
  */
 void display_init() {
 	uint8_t start_command[3] = { DISP_START_INSTR_W, BYTE_TO_DISPLAY_BYTE(
@@ -87,10 +90,10 @@ DISPLAY_STATUS display_write(uint8_t *data, uint16_t data_size, uint8_t row,
 	/* Calculate DDRAM address to match row and column */
 	uint8_t display_addr = COORD_TO_DISPLAY_ADDR(col - 1, row - 1);
 
-	/* Set display address counter to correct address */
 	uint8_t f_set[3] = { DISP_START_INSTR_W, BYTE_TO_DISPLAY_BYTE((DISP_FS)) }; // RE = 0
 	spi_send(f_set, 3);
 
+	/* Set display address counter to correct address */
 	uint8_t set_addr_cmd[2] = { BYTE_TO_DISPLAY_BYTE((DISP_DDRAM_SET_ADDR | display_addr)) };
 	spi_send(set_addr_cmd, 2);
 

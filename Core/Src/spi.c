@@ -21,6 +21,15 @@
 #include "spi.h"
 
 /* USER CODE BEGIN 0 */
+
+/**
+ * @brief	Sends data over SPI2 interface.
+ *
+ * @param	uint8_t *data: A pointer to the data to be sent
+ * @param	uint16_t data_size: Amount of bytes to be sent (size of data buffer)
+ *
+ * @retval 	SPI_OK if transmitted successfully, otherwise SPI_FAIL.
+ */
 SPI_STATUS spi_send(uint8_t *data, uint16_t data_size) {
 	HAL_StatusTypeDef status;
 	if ((status = HAL_SPI_Transmit(&hspi2, data, data_size, 5000)) != HAL_OK) {
@@ -33,6 +42,15 @@ SPI_STATUS spi_send(uint8_t *data, uint16_t data_size) {
 	}
 }
 
+/**
+ * @brief	Receive data over SPI2 interface.
+ *
+ * @param	uint8_t *data: A pointer to a buffer that should be filled with the
+ * 						   received data.
+ * @param	uint16_t data_size: Size of receive data buffer.
+ *
+ * @retval 	SPI_OK if received successfully, otherwise SPI_FAIL.
+ */
 SPI_STATUS spi_receive(uint8_t *data, uint16_t data_size) {
 	HAL_StatusTypeDef status;
 	if ((status = HAL_SPI_Receive(&hspi2, data, data_size, 5000)) != HAL_OK) {

@@ -1,8 +1,9 @@
-/*
- * pwm.c
- *
- *  Created on: Dec 12, 2021
- *      Author: kimli
+/**
+ ******************************************************************************
+ @brief 	Driver for the PWM module.
+ @file 		pwm.c
+ @author	Kim Lintu
+ ******************************************************************************
  */
 
 #include "pwm.h"
@@ -10,6 +11,11 @@
 
 #define TIM3_PERIOD 1041
 
+/**
+ * @brief	Starts the PWM output on Timer 3.
+ *
+ * @retval	PWM_OK if started successfully, otherwise PWM_FAIL
+ */
 PWM_STATUS pwm_start() {
 	HAL_StatusTypeDef status;
 	if ((status = HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2)) != HAL_OK) {
@@ -22,6 +28,11 @@ PWM_STATUS pwm_start() {
 	}
 }
 
+/**
+ * @brief	Stops the PWM output on Timer 3.
+ *
+ * @retval	PWM_OK if stopped successfully, otherwise PWM_FAIL
+ */
 PWM_STATUS pwm_stop() {
 	HAL_StatusTypeDef status;
 	if ((status = HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_2)) != HAL_OK) {

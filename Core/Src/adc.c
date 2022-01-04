@@ -41,7 +41,7 @@ ADC_STATUS adc_start() {
 }
 
 /**
- * @brief	Reads value from ADC conversion.
+ * @brief	Reads value from latest ADC conversion.
  *
  * @retval	the value of the conversion.
  */

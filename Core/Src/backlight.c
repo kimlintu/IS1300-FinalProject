@@ -1,8 +1,9 @@
-/*
- * backlight.c
- *
- *  Created on: 22 dec. 2021
- *      Author: kimli
+/**
+ ******************************************************************************
+ @brief 	Driver for the external backlight.
+ @file 		backlight.c
+ @author	Kim Lintu
+ ******************************************************************************
  */
 
 #include "backlight.h"
@@ -30,8 +31,8 @@ void backlight_off() {
 }
 
 /**
- * @brief	Updates the brightness of the backlight depending on the
- * 			value of the potentiometer.
+ * @brief	Updates the brightness of the backlight to a value proportional to the
+ * 			current value of the potentiometer.
  *
  * @retval	None.
  */

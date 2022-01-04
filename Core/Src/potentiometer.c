@@ -1,8 +1,9 @@
-/*
- * potentiometer.c
- *
- *  Created on: 22 dec. 2021
- *      Author: kimli
+/**
+ ******************************************************************************
+ @brief 	Driver for the external potentiometer.
+ @file 		potentiometer.c
+ @author	Kim Lintu
+ ******************************************************************************
  */
 
 #include "potentiometer.h"
