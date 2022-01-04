@@ -22,16 +22,24 @@
 
 /* USER CODE BEGIN 0 */
 SPI_STATUS spi_send(uint8_t *data, uint16_t data_size) {
-	if (HAL_SPI_Transmit(&hspi2, data, data_size, 5000) != HAL_OK) {
-		return SPI_FAIL_TRANSMIT;
+	HAL_StatusTypeDef status;
+	if ((status = HAL_SPI_Transmit(&hspi2, data, data_size, 5000)) != HAL_OK) {
+#ifdef LOG_ERRORS
+		HAL_error_handler("SPI", status);
+#endif
+		return SPI_FAIL;
 	} else {
 		return SPI_OK;
 	}
 }
 
 SPI_STATUS spi_receive(uint8_t *data, uint16_t data_size) {
-	if (HAL_SPI_Receive(&hspi2, data, data_size, 5000) != HAL_OK) {
-		return SPI_FAIL_RECEIVE;
+	HAL_StatusTypeDef status;
+	if ((status = HAL_SPI_Receive(&hspi2, data, data_size, 5000)) != HAL_OK) {
+#ifdef LOG_ERRORS
+		HAL_error_handler("SPI", status);
+#endif
+		return SPI_FAIL;
 	} else {
 		return SPI_OK;
 	}

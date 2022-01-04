@@ -35,8 +35,13 @@ RTC_HandleTypeDef hrtc;
 RTC_STATUS rtc_set_time(RTC_TimeTypeDef *time) {
 	time->DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
 	time->StoreOperation = RTC_STOREOPERATION_RESET;
-	if (HAL_RTC_SetTime(&hrtc, time, RTC_FORMAT_BIN) != HAL_OK) {
-		return RTC_SETTIME_FAIL;
+
+	HAL_StatusTypeDef status;
+	if ((status = HAL_RTC_SetTime(&hrtc, time, RTC_FORMAT_BIN)) != HAL_OK) {
+#ifdef LOG_ERRORS
+		HAL_error_handler("RTC", status);
+#endif
+		return RTC_FAIL;
 	} else {
 		return RTC_OK;
 	}
@@ -75,8 +80,12 @@ RTC_STATUS rtc_set_time_from_timestring(timestring *time) {
 RTC_STATUS rtc_get_time(RTC_TimeTypeDef *time) {
 	RTC_DateTypeDef hal_date;
 
-	if (HAL_RTC_GetTime(&hrtc, time, RTC_FORMAT_BIN) != HAL_OK) {
-		return RTC_GETTIME_FAIL;
+	HAL_StatusTypeDef status;
+	if ((status = HAL_RTC_GetTime(&hrtc, time, RTC_FORMAT_BIN)) != HAL_OK) {
+#ifdef LOG_ERRORS
+		HAL_error_handler("RTC", status);
+#endif
+		return RTC_FAIL;
 	} else {
 		/* Read date to unlock values in shadow registers */
 		HAL_RTC_GetDate(&hrtc, &hal_date, RTC_FORMAT_BIN);

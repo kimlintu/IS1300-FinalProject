@@ -13,7 +13,7 @@ static uint32_t errors = 0;
 static uint32_t pass = 0;
 
 void test_adc_start() {
-	if (adc_start() != ADC_START_OK) {
+	if (adc_start() != ADC_OK) {
 		printf("\tfail: Could not start ADC conversion\n");
 		errors++;
 	} else {

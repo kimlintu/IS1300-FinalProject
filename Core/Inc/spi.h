@@ -28,7 +28,7 @@ extern "C" {
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
-
+#include "error_handler.h"
 /* USER CODE END Includes */
 
 extern SPI_HandleTypeDef hspi2;
@@ -36,8 +36,7 @@ extern SPI_HandleTypeDef hspi2;
 /* USER CODE BEGIN Private defines */
 typedef enum {
 	SPI_OK,
-	SPI_FAIL_TRANSMIT,
-	SPI_FAIL_RECEIVE
+	SPI_FAIL
 } SPI_STATUS;
 /* USER CODE END Private defines */
 

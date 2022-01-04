@@ -21,6 +21,7 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "adc.h"
+#include "i2c.h"
 #include "rtc.h"
 #include "spi.h"
 #include "tim.h"
@@ -33,7 +34,8 @@
 #include "timestring.h"
 #include "backlight.h"
 #include "stdio.h"
-//#define RUN_TEST
+#include "math.h"
+#define RUN_TEST
 
 #ifdef RUN_TEST
 #include "test/test_uart.h"
@@ -45,6 +47,8 @@
 #include "test/test_adc.h"
 #include "test/test_potentiometer.h"
 #include "test/test_backlight.h"
+#include "test/test_accelerometer.h"
+
 #endif
 /* USER CODE END Includes */
 
@@ -85,6 +89,78 @@ int _write(int file, char *ptr, int len) {
 		ITM_SendChar(*ptr++);
 	}
 	return len;
+}
+
+uint32_t last_tick = 0;
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+	static uint8_t x_n = 0;
+	static uint8_t x_p = 0;
+	static uint8_t y_n = 0;
+	static uint8_t y_p = 0;
+
+	switch (GPIO_Pin) {
+	case Acc_INT2_Pin: {
+		uint8_t bfr;
+		while (i2c_read(&bfr, 1, 0x1e, 0x5f) != I2C_OK)
+			;
+
+		if (x_p && x_n) {
+			if (bfr & 0x80) {
+				printf("shake X!\n");
+			}
+			x_p = 0;
+			x_n = 0;
+		} else if (y_p && y_n) {
+			if (bfr & 0x20) {
+				printf("shake Y!\n");
+			}
+			y_p = 0;
+			y_n = 0;
+		} else {
+			if (x_p) {
+				if (bfr & 0x40) {
+					x_n = 1;
+				} else {
+					x_p = 0;
+				}
+			} else if (x_n) {
+				if (bfr & 0x80) {
+					x_p = 1;
+				} else {
+					x_n = 0;
+				}
+			} else if (y_p) {
+				if (bfr & 0x10) {
+					y_n = 1;
+				} else {
+					y_p = 0;
+				}
+			} else if (y_n) {
+				if (bfr & 0x20) {
+					y_p = 1;
+				} else {
+					y_n = 0;
+				}
+			} else {
+				if (bfr & 0x80) {
+					x_p = 1;
+				} else if (bfr & 0x40) {
+					x_n = 1;
+				} else if (bfr & 0x20) {
+					y_n = 1;
+				} else if (bfr & 0x10) {
+					y_p = 1;
+				}
+			}
+		}
+
+		printf("sm 1 axis : %u\n", bfr);
+	}
+		break;
+	}
+	/* read to clear interrupt flag */
+
 }
 /* USER CODE END 0 */
 
@@ -159,6 +235,7 @@ int main(void) {
 while(1);
 
 	/* Startup procedure */
+
 	display_init();
 	display_clear();
 
@@ -177,6 +254,8 @@ while(1);
 	}
 	display_clear();
 	rtc_set_time_from_timestring(&user_timestring);
+#endif
+
 
 	/* USER CODE END 2 */
 
