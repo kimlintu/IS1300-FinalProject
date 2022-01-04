@@ -197,45 +197,65 @@ int main(void) {
 	MX_SPI2_Init();
 	MX_TIM3_Init();
 	MX_ADC1_Init();
-	MX_I2C3_Init();
 	/* USER CODE BEGIN 2 */
 #ifdef RUN_TEST
-	/*
-	 test_uart();
-	 test_spi();
-	 test_rtc();
-	 test_timestring();
-	 test_pwm();
-	 test_display();
-	 test_adc();
-	 test_potentiometer();
-	 test_backlight();
-	 */
-	test_accelerometer();
-#else
-  /* Startup procedure */
+	//test_uart();
+	test_spi();
+	//test_timestring();
+	test_rtc();
+	//test_pwm();
+	//test_display();
+  	//test_adc();
+  //test_potentiometer();
+  test_backlight();
+#endif
+  backlight_on();
+  display_init();
+  /* Function set RE = 1 (enable extended function registers), R/W=0 RS=0*/
+  uint8_t cmd1[3] = { 0x1f, 0x0A, 0x03 };
+
+  /* ROM select */
+  uint8_t cmd2[2] = { 0x02, 0x07 };
+
+  /* Select ROM A (0x00) R/W=0 RS=1 */
+  uint8_t cmd3[3] = { 0x5f, 0x0, 0x0 };
+
+  /* Function set RE = 0*/
+  uint8_t cmd4[3] = { 0x1f, 0x08, 0x03 };
+
+  spi_send(cmd1, 3);
+  spi_send(cmd2, 2);
+  spi_send(cmd3, 3);
+  spi_send(cmd4, 3);
+
+  display_clear();
+  uint8_t block = 0x1F;
+  display_write(&block, 1, 1, 1);
+  display_write(&block, 1, 3, 1);
+while(1);
+
+	/* Startup procedure */
+
 	display_init();
 	display_clear();
 
 	backlight_on();
 
-	uint8_t *str = "Timestring!";
+	uint8_t *str = "Send";
+	uint8_t *str3 = "timestring";
 	display_write(str, strlen(str), 1, 1);
+	display_write(str3, strlen(str3), 2, 1);
 
 	/* Get user initial timestring */
 	timestring user_timestring;
-	get_user_timestring(&user_timestring);
+	while(get_user_timestring(&user_timestring) != TIMESTRING_OK) {
+		uint8_t *str2 = "TRY AGAIN";
+		display_write(str2, strlen(str2), 1, 1);
+	}
+	display_clear();
 	rtc_set_time_from_timestring(&user_timestring);
 #endif
 
-	while (1) {
-		uint8_t bfr1, bfr2;
-		i2c_read(&bfr1, 1, 0x1e, 0x5c);
-
-		printf("sm1: %u\n", bfr1);
-
-		HAL_Delay(100);
-	}
 
 	/* USER CODE END 2 */
 
