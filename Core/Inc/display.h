@@ -19,7 +19,7 @@
 
 /* Command */
 /* Function set */
-#define DISP_FS 0x30 // 8-bit data selected
+#define DISP_FS 0x38 // 8-bit data selected
 #define DISP_FS_RE_BIT (0x1 << 1)
 #define DISP_FS_IS_BIT (0x1)
 

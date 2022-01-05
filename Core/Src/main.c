@@ -129,15 +129,15 @@ int main(void) {
 	MX_ADC1_Init();
 	/* USER CODE BEGIN 2 */
 #ifdef RUN_TEST
-	//test_uart();
-	//test_spi();
+	test_uart();
+	test_spi();
 	test_timestring();
-	//test_rtc();
-	//test_pwm();
-	//test_display();
-  	//test_adc();
-  	//test_potentiometer();
-  	//test_backlight();
+	test_rtc();
+	test_pwm();
+	test_display();
+  	test_adc();
+  	test_potentiometer();
+  	test_backlight();
   	while(1); // don't run rest of program
 #endif
 	/* Startup procedure */

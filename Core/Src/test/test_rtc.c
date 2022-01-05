@@ -66,7 +66,8 @@ RTC_TimeTypeDef test_rtc_gettime() {
  * @brief	Compares timestrings retrieved from previous tests (set time, and get time).
  * 			The retrieved timestring should be retrieved immediately after the time was set.
  */
-void test_correct_settime(RTC_TimeTypeDef set_time, RTC_TimeTypeDef retrieved_time) {
+void test_correct_settime(RTC_TimeTypeDef set_time,
+		RTC_TimeTypeDef retrieved_time) {
 	uint8_t fail = 0;
 
 	if (retrieved_time.Hours != set_time.Hours) {
@@ -96,7 +97,7 @@ void test_correct_settime(RTC_TimeTypeDef set_time, RTC_TimeTypeDef retrieved_ti
 		fail = 1;
 	}
 
-	if(!fail) {
+	if (!fail) {
 		pass++;
 	}
 }
@@ -106,24 +107,30 @@ void test_correct_settime(RTC_TimeTypeDef set_time, RTC_TimeTypeDef retrieved_ti
  */
 void test_rtc_updatetime() {
 	int c = 5;
-	RTC_TimeTypeDef seconds[c];
+	RTC_TimeTypeDef timestamps[c];
 
 	RTC_TimeTypeDef retrieved_time = { 0 };
 	for (int i = 0; i < c; i++) {
 		rtc_get_time(&retrieved_time);
-		seconds[i] = retrieved_time;
+		timestamps[i] = retrieved_time;
 		HAL_Delay(1000);
 	}
 
 	uint8_t fail = 0;
 	for (int i = 1; i < c; i++) {
-		if (seconds[i].Seconds == seconds[i - 1].Seconds) {
-			if (!fail) {
-				printf("\tfail: time did not update after 1s\n");
-				fail = 1;
+		if (timestamps[i].Seconds == timestamps[i - 1].Seconds) {
+			if (timestamps[i].SubSeconds == timestamps[i - 1].SubSeconds) {
+				if (!fail) {
+					printf("\tfail: time did not update after 1s\n");
+					fail = 1;
+				}
+				printf("\t-> seconds[%d]=%u is same as [%d]=%u\n", i,
+						timestamps[i].Seconds, i - 1,
+						timestamps[i - 1].Seconds);
+				printf("\t-> subseconds[%d]=%u is same as [%d]=%u\n", i,
+						timestamps[i].SubSeconds, i - 1,
+						timestamps[i - 1].SubSeconds);
 			}
-			printf("\t-> seconds[%d]=%u is same as [%d]=%u\n", i, seconds[i].Seconds,
-					i - 1, seconds[i - 1].Seconds);
 		}
 	}
 
@@ -146,12 +153,13 @@ void test_rtc() {
 		test_rtc_updatetime();
 #endif
 	} else {
-		printf("\terror: could not run remaining test since time was not set\n");
+		printf(
+				"\terror: could not run remaining test since time was not set\n");
 	}
 
 	uint8_t str[] = "12:03:12\n";
 	timestring time;
-	for(int i = 0; i < sizeof(timestring); i++) {
+	for (int i = 0; i < sizeof(timestring); i++) {
 		time[i] = str[i];
 	}
 

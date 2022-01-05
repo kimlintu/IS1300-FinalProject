@@ -50,7 +50,7 @@ void display_init() {
 					},
 					{
 							BYTE_TO_DISPLAY_BYTE(
-									(DISP_CTRL | DISP_CTRL_ON_BIT | DISP_CTRL_CURSOR_BIT | DISP_CTRL_CURSOR_BLINK_BIT))
+									(DISP_CTRL | DISP_CTRL_ON_BIT))
 					} };
 
 	spi_send(start_command, 3);

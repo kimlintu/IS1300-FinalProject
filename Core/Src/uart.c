@@ -6,7 +6,7 @@
  ******************************************************************************
  */
 
-#ifndef MOCK_UART
+#ifndef MOCK_UART // Remove this symbol under Project->Properties->C/C++ Build->Settings->MCU GCC Compiler->Preprocessor to disable this mock
 #include "uart.h"
 #include "error_handler.h"
 

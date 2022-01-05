@@ -5,7 +5,7 @@
  *      Author: kimli
  */
 
-#ifdef MOCK_UART
+#ifdef MOCK_UART // Add this symbol under Project->Properties->C/C++ Build->Settings->MCU GCC Compiler->Preprocessor to enable this mock
 #include "test/mock/mock_uart.h"
 #include "stdio.h"
 
