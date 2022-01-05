@@ -46,9 +46,9 @@ PWM_STATUS pwm_stop() {
 }
 
 /**
- * @brief	Sets the duty cycle of PWM to 'p'.
+ * @brief	Sets the duty cycle of PWM to 'p' percent.
  *
- * @param	uint8_t p: The desired duty cycle. Should be between 0 and 100.
+ * @param	uint8_t p: The desired duty cycle. Should be a value between 0 and 100 percent.
  *
  * @retval 	PWM_DC_CHANGE_FAIL if the p value was out of bounds. Otherwise
  * 			PWM_DC_CHANGE_OK is returned.

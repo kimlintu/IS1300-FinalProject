@@ -40,7 +40,6 @@ void backlight_update_brightness() {
 	uint32_t p_value = potentiometer_read();
 
 	/* ADC resolution is 12 bit so max value should be 2^12 -1. */
-	/* max value observed has been around ~3900 though */
 	uint32_t duty_cycle = ((float) p_value / 4095) * 100;
 
 	pwm_set_duty_cycle(duty_cycle);
