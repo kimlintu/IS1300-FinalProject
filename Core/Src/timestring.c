@@ -11,7 +11,7 @@
 #include "ctype.h"
 #include "string.h"
 
-#define VALID_TIME_RANGE(time, min, max) ((time < min) || (time > max)) ? false : true
+#define VALID_TIME_RANGE(time, min, max) (((time < min) || (time > max)) ? false : true)
 
 /**
  * @brief	Verify timestring format.

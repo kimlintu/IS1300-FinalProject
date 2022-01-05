@@ -9,6 +9,7 @@
 #define INC_TEST_MOCK_MOCK_UART_H_
 
 #include "stdint.h"
+#include "stdbool.h"
 
 typedef enum {
 	UART_OK,
@@ -19,6 +20,6 @@ void mock_uart_set_receive_retval(uint8_t *retval, uint16_t size);
 
 UART_status uart_send_data(uint8_t *data, uint16_t data_size);
 
-UART_status uart_receive_data_block(uint8_t *buffer, uint16_t buffer_size);
+UART_status uart_receive_data_block(uint8_t *buffer, uint16_t buffer_size, bool echo);
 
 #endif /* INC_TEST_MOCK_MOCK_UART_H_ */

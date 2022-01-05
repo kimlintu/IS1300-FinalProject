@@ -7,6 +7,7 @@
 
 #ifdef MOCK_UART
 #include "test/mock/mock_uart.h"
+#include "stdio.h"
 
 #define RECEIVE_BUFFER_SIZE 128
 
@@ -30,7 +31,7 @@ UART_status uart_send_data(uint8_t *data, uint16_t data_size) {
 	return UART_OK;
 }
 
-UART_status uart_receive_data_block(uint8_t *buffer, uint16_t buffer_size) {
+UART_status uart_receive_data_block(uint8_t *buffer, uint16_t buffer_size, bool echo) {
 	for(int i = 0; i < buffer_size; i++) {
 		buffer[i] = uart_mock.uart_receive_retval[i];
 	}
