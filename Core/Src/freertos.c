@@ -183,7 +183,7 @@ void ClockUpdate(void *argument)
 void BacklightUpdate(void *argument)
 {
   /* USER CODE BEGIN BacklightUpdate */
-  const TickType_t xPeriod = pdMS_TO_TICKS(50);
+  const TickType_t xPeriod = pdMS_TO_TICKS(30);
 
   TickType_t xLastWakeTime = xTaskGetTickCount();
   /* Infinite loop */

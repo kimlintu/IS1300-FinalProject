@@ -79,7 +79,7 @@ void test_uart() {
 	uint16_t w_data_size = strlen(wrong_data);
 	mock_uart_set_receive_retval(wrong_data, w_data_size);
 #else
-	uint8_t *prompt2 = (uint8_t *) "Type something EXCEPT: \"Hello World\\n\"\r\n";
+	uint8_t *prompt2 = (uint8_t *) "Type: \"Bello Borld\\n\"\r\n";
 	data_size = (uint16_t) strlen((char*) prompt2);
 	uart_send_data(prompt2, data_size + 1);
 #endif

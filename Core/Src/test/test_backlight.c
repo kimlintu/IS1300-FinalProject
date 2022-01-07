@@ -27,7 +27,7 @@ void test_backlight() {
 	}
 	pass++;
 
-	printf("Turning off backlight. Brightness is set to current potentiometer value at startup\n");
+	printf("Turning off backlight.\n");
 	backlight_off();
 	pass++;
 

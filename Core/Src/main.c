@@ -36,7 +36,7 @@
 #include "math.h"
 #include "string.h"
 
-#define RUN_TEST
+//#define RUN_TEST
 
 #ifdef RUN_TEST
 #include "test/test_uart.h"
@@ -131,7 +131,7 @@ int main(void) {
 #ifdef RUN_TEST
 	test_uart();
 	test_spi();
-	test_timestring();
+	test_timestring(); // Add the MOCK_UART symbol under Project->Properties->C/C++ Build->Settings->MCU GCC Compiler->Preprocessor to a mock for UART
 	test_rtc();
 	test_pwm();
 	test_display();
@@ -155,7 +155,7 @@ int main(void) {
 	display_write(str, strlen(str), 1, 1);
 	display_write(str3, strlen(str3), 2, 1);
 
-	/* Get user initial timestring */
+	/* Get user timestring */
 	timestring user_timestring;
 	while (get_user_timestring(&user_timestring) != TIMESTRING_OK) {
 		// Display that timestring was incorrect
